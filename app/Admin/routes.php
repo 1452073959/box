@@ -13,5 +13,11 @@ Route::group([
 ], function (Router $router) {
 
     $router->get('/', 'HomeController@index');
+    //分类管理
+    $router->resource('cate', 'CategoryController');
+    //商品管理
+    $router->resource('products', 'ProductController');
+    //q券
+    $router->resource('ticket', 'DiscountController');
 
 });

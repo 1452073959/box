@@ -52,4 +52,9 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(UserAddress::class);
     }
+//    卡包
+    public function userDiscount()
+    {
+        return $this->hasMany(UserDiscount::class);
+    }
 }
