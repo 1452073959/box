@@ -100,9 +100,9 @@ class ProductController extends AdminController
             $form->radio('recommended')->options(['1' => '是', '2'=> '否'])->default('1')->required();
             $form->radio('status')->options([1 => '上架', 2=> '下架'])->default('1')->required();
 
-            $form->hasMany('skus','sku', function (Form\NestedForm $form) {
-                $form->text('title','sku名称');
-                $form->image('image','sku图片');
+            $form->hasMany('skus','sku(最少添加四个)', function (Form\NestedForm $form) {
+                $form->text('title','sku名称')->required();;
+                $form->image('image','sku图片')->required();;
             });
 
             // 去除整个工具栏内容

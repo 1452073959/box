@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Api\Controller;
 use App\Models\Category;
+use App\Models\ProductSku;
+use App\Models\UserDiscount;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\User;
@@ -73,6 +75,7 @@ class ProductController extends Controller
     {
         // 判断商品是否已经上架，如果没有上架则抛出异常。
         $user = auth('api')->user();
+        //清除该摇一摇缓存
         Redis::del($user['id'].'+'.$product['id']);//true
         if ($product->status==2) {
             return $this->failed('该商品已下架');
@@ -86,22 +89,73 @@ class ProductController extends Controller
     public function teeter(Product $product, Request $request)
     {
 //
+        $user = auth('api')->user();
+
+        $productsku= $product->skus()->get();
+        $noskuone=Arr::random($productsku->toarray());
+        $teetercouunt= Redis::scard($user['id'].'+'.$product['id']);
+        $nosku= Redis::smembers($user['id'].'+'.$product['id']);
         // 判断商品是否已经上架，如果没有上架则抛出异常。
         if ($product->status==2) {
             return $this->failed('该商品已下架');
         }
-//        dump($product);
-        $user = auth('api')->user();
+        $num=2;
+        // 如果用户提交了优惠码
+        if ($coupon = $request->input('coupon')) {
+            $cartItems = $user->userDiscount()->with(['discount'])->where('id',$coupon)->first();
+
+            if(!$cartItems['amount']){
+                return $this->failed('没有该卡了');
+            }
+            if($teetercouunt<=2){
+                return $this->failed('您的普通摇卡次数还没用完');
+            }
+            if($cartItems['discount_id']==1){
+                $num=3;
+                if($teetercouunt>$num) {
+                    return $this->success(['product' => $product, 'product_sku' => $productsku, 'nosku' => $nosku, 'msg' => '只能使用一张提示卡']);
+                }
+                $arr=ProductSku::where('product_id',$product['id'])->get();
+                foreach ($arr as $k=>$v)
+                {
+                    $arr1[]=$v['id'];
+                }
+                 $intersection = array_diff($arr1, $nosku);
+                $noskuone=Arr::random($intersection);
+                $teeter= Redis::sadd($user['id'].'+'.$product['id'],$noskuone);
+                $nosku= Redis::smembers($user['id'].'+'.$product['id']);
+                UserDiscount::where('user_id',$user['id'])->where('discount_id',$cartItems['discount_id'])->update([
+                    'amount' => $cartItems['amount']-1,
+                ]);
+                return $this->success(['product'=>$product,'product_sku'=>$productsku,'nosku'=>$nosku,'msg'=>'又摇到一个']);
+            }
+
+            if($cartItems['discount_id']==2)
+            {
+                $arr=ProductSku::where('product_id',$product['id'])->get();
+                foreach ($arr as $k=>$v)
+                {
+                    $arr1[]=$v['id'];
+                }
+                $intersection = array_diff($arr1, $nosku);
+                $noskuone=Arr::random($intersection);
+                $arr=ProductSku::where('id',$noskuone)->get();
+                UserDiscount::where('user_id',$user['id'])->where('discount_id',$cartItems['discount_id'])->update([
+                    'amount' => $cartItems['amount']-1,
+                ]);
+                return $this->success(['product'=>$product,'product_sku'=>$productsku,'nosku'=>$nosku,'yessku'=>$arr,'msg'=>'显示卡使用成功,里面是它']);
+            }
+        }
+
+
+
 
 //        Redis::flushall();
 
-        $productsku= $product->skus()->get();
 
 //        dump($productsku);
-        $noskuone=Arr::random($productsku->toarray());
-        $teetercouunt= Redis::scard($user['id'].'+'.$product['id']);
-        $nosku= Redis::smembers($user['id'].'+'.$product['id']);
-        if($teetercouunt>2){
+
+        if($teetercouunt>$num){
             return $this->success(['product'=>$product,'product_sku'=>$productsku,'nosku'=>$nosku,'msg'=>'不能再摇了']);
         }else{
             $teeter= Redis::sadd($user['id'].'+'.$product['id'],$noskuone['id']);

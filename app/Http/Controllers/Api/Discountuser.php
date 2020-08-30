@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Api\Controller;
+use App\Models\Discount;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Product;
 use App\Models\UserDiscount;
+
+//卡券
 class Discountuser extends Controller
 {
     //添加商品到购物车
@@ -38,25 +41,17 @@ class Discountuser extends Controller
 
         return $this->success($cart);
     }
-    //查看购物车
+    //查看卡
     public function index(Request $request)
     {
         $user = auth('api')->user();
         $cartItems = $user->userDiscount()->with(['discount'])->get();
-
-        foreach ($cartItems as $k => $v) {
-            $totalprice = 0;
-            $totalprice += $v['product']['price'] * $v['amount'];
-            $cartItems[$k]['totalprice'] =$totalprice;
-        }
         return $this->success($cartItems);
     }
     //移除购物车
-    public function del( )
+    public function kabiao( )
     {
-        $data=request('product_id');
-        $user = auth('api')->user();
-        $res= CartItem::where('user_id',$user['id'])->whereIn('product_id',$data)->delete();
+        $res= Discount::all();
         return $this->success($res);
     }
 

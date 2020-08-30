@@ -90,12 +90,14 @@ return [
     // ],
 
     /*
-     * 小程序ec93a842227c232aeb17b54ede8ca1bd
+     * 小程序ec93a842227c232aeb17b54ede8ca1bd微信支付API密钥  1c90621d6dbc02ce91aa09b8739aapay
      */
     'mini_program' => [
         'default' => [
-            'app_id'  => env('WECHAT_MINI_PROGRAM_APPID', 'wx0f8e31fa7cdd52bd'),
-            'secret'  => env('WECHAT_MINI_PROGRAM_SECRET', 'ec93a842227c232aeb17b54ede8ca1bd'),
+//            'app_id'  => env('WECHAT_MINI_PROGRAM_APPID', 'wx0f8e31fa7cdd52bd'),
+//            'secret'  => env('WECHAT_MINI_PROGRAM_SECRET', 'ec93a842227c232aeb17b54ede8ca1bd'),
+            'app_id'  => env('WECHAT_MINI_PROGRAM_APPID', 'wx002d9cfde7973324'),
+            'secret'  => env('WECHAT_MINI_PROGRAM_SECRET', 'c90621d6dbc02ce91aa09b8739aa525c'),
             'token'   => env('WECHAT_MINI_PROGRAM_TOKEN', ''),
             'aes_key' => env('WECHAT_MINI_PROGRAM_AES_KEY', ''),
         ],

@@ -9,7 +9,7 @@ class UserDiscount extends Model
 {
 	
     protected $table = 'user_discount';
-    public $timestamps = false;
+//    public $timestamps = false;
 
     protected $guarded = [];
     public function user()

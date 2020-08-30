@@ -20,6 +20,7 @@ class AddressesController extends Controller
 
     public function store(UserAddressRequest $request)
     {
+
         $user = auth('api')->user();
         $address=$user->addresses()->create($request->only([
             'province',
