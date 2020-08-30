@@ -19,5 +19,6 @@ Route::group([
     $router->resource('products', 'ProductController');
     //q券
     $router->resource('ticket', 'DiscountController');
+    $router->resource('user', 'UserController');
 
 });
