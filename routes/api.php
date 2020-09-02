@@ -62,5 +62,7 @@ $api->version('v1', [
     //商城商品
     $api->get('shop', 'ProductController@shop');
     Route::get('shop/{shop}', 'Api\ProductController@shopshow');
+    //商城推荐
+    $api->get('shopstick', 'ProductController@shopstick');
 
 });

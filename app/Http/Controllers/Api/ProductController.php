@@ -172,7 +172,7 @@ class ProductController extends Controller
     public function shop()
     {
 
-        $builder = Shop::query()->where('status', 1)->where('recommended',1)->get();
+        $builder = Shop::query()->where('status', 1)->get();
         return $this->success($builder);
     }
 
@@ -181,7 +181,12 @@ class ProductController extends Controller
     {
         return $this->success($shop);
     }
-
+    //商城商品推荐
+    public function shopstick()
+    {
+        $builder = Shop::query()->where('status', 1)->where('recommended',1)->get();
+        return $this->success($builder);
+    }
     //商品
     public function multiproduct(Request $request)
     {
