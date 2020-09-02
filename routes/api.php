@@ -57,8 +57,10 @@ $api->version('v1', [
 
     //商品列表
     $api->get('product', 'ProductController@index');
-    //推荐
+    //抽盒推荐
     $api->get('productstick', 'ProductController@stick');
-
+    //商城商品
+    $api->get('shop', 'ProductController@shop');
+    Route::get('shop/{shop}', 'Api\ProductController@shopshow');
 
 });

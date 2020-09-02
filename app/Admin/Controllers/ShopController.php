@@ -2,13 +2,13 @@
 
 namespace App\Admin\Controllers;
 
-use App\Admin\Repositories\Product;
+use App\Models\Shop;
 use Dcat\Admin\Form;
 use Dcat\Admin\Grid;
 use Dcat\Admin\Show;
 use Dcat\Admin\Controllers\AdminController;
 
-class ProductController extends AdminController
+class ShopController extends AdminController
 {
     /**
      * Make a grid builder.
@@ -17,15 +17,11 @@ class ProductController extends AdminController
      */
     protected function grid()
     {
-        return Grid::make(new Product(), function (Grid $grid) {
+        return Grid::make(new Shop(), function (Grid $grid) {
             $grid->id->sortable();
-            $grid->model()->with(['cate']);
-            $grid->column('cate.text','分类');
-            $grid->title;
-//            $grid->description;
-//            $grid->sold_count;
+
+            $grid->titile;
             $grid->price;
-//            $grid->stock;
             $grid->recommended->using([ 1 => '是',2=>'否'])->filter(
                 Grid\Column\Filter\In::make([
                     1 => '是',
@@ -45,7 +41,6 @@ class ProductController extends AdminController
             $grid->disableDeleteButton();
             $grid->filter(function (Grid\Filter $filter) {
                 $filter->like('title', '商品名称');
-                $filter->equal('cid','商品分类')->select(config('app.url').'/api/cate');
 
             });
         });
@@ -60,15 +55,14 @@ class ProductController extends AdminController
      */
     protected function detail($id)
     {
-        return Show::make($id, new Product(), function (Show $show) {
+        return Show::make($id, new Shop(), function (Show $show) {
             $show->field('id');
-            $show->field('cid');
-            $show->field('title');
-            $show->field('description');
+            $show->field('titile');
+            $show->field('series');
             $show->field('image');
+            $show->field('description');
             $show->field('price');
             $show->field('recommended');
-            $show->field('status');
             $show->field('created_at');
             $show->field('updated_at');
         });
@@ -81,29 +75,15 @@ class ProductController extends AdminController
      */
     protected function form()
     {
-        return Form::make(new Product(['skus']), function (Form $form) {
-//            $form->display('id');
-//            $form->text('cid');
-            $form->select('cid','所属分类')->options(config('app.url').'/api/cate')->required();
-            $form->text('title')->required();
+        return Form::make(new Shop(), function (Form $form) {
+            $form->display('id');
+            $form->text('titile')->required();
             $form->text('series')->required();
-            $form->multipleImage('image')->saving(function ($paths) {
-                // 可以转化为由 , 隔开的字符串格式
-                // return implode(',', $paths);
-                // 也可以转化为json
-                return json_encode($paths);
-            })->uniqueName();
-            $form->image('cover')->uniqueName()->required();
+            $form->image('image')->required();
+            $form->editor('description')->required();
             $form->text('price')->required();
-            $form->number('number')->required();
-
             $form->radio('recommended')->options(['1' => '是', '2'=> '否'])->default('1')->required();
             $form->radio('status')->options([1 => '上架', 2=> '下架'])->default('1')->required();
-
-            $form->hasMany('skus','sku(最少添加四个)', function (Form\NestedForm $form) {
-                $form->text('title','sku名称')->required();;
-                $form->image('image','sku图片')->required();;
-            });
 
             // 去除整个工具栏内容
             $form->disableHeader();

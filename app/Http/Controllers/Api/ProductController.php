@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Api\Controller;
 use App\Models\Category;
 use App\Models\ProductSku;
+use App\Models\Shop;
 use App\Models\UserDiscount;
 use Illuminate\Http\Request;
 use App\Models\Product;
@@ -166,6 +167,19 @@ class ProductController extends Controller
                 return $this->success(['product'=>$product,'product_sku'=>$productsku,'nosku'=>$nosku,'msg'=>'摇到']);
             }
         }
+    }
+        //商城商品
+    public function shop()
+    {
+
+        $builder = Shop::query()->where('status', 1)->where('recommended',1)->get();
+        return $this->success($builder);
+    }
+
+    //商品详情
+    public function shopshow(Shop $shop)
+    {
+        return $this->success($shop);
     }
 
     //商品

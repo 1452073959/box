@@ -20,5 +20,7 @@ Route::group([
     //q券
     $router->resource('ticket', 'DiscountController');
     $router->resource('user', 'UserController');
+    //商城
 
+    $router->resource('shop', 'ShopController');
 });

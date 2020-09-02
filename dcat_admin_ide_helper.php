@@ -60,7 +60,11 @@ namespace Dcat\Admin {
      * @property Grid\Column|Collection token
      * @property Grid\Column|Collection product_id
      * @property Grid\Column|Collection cid
+     * @property Grid\Column|Collection cover
      * @property Grid\Column|Collection series
+     * @property Grid\Column|Collection titile
+     * @property Grid\Column|Collection award
+     * @property Grid\Column|Collection type
      * @property Grid\Column|Collection province
      * @property Grid\Column|Collection city
      * @property Grid\Column|Collection district
@@ -69,6 +73,7 @@ namespace Dcat\Admin {
      * @property Grid\Column|Collection contact_phone
      * @property Grid\Column|Collection discount_id
      * @property Grid\Column|Collection amount
+     * @property Grid\Column|Collection task_id
      * @property Grid\Column|Collection nickname
      * @property Grid\Column|Collection weapp_avatar
      * @property Grid\Column|Collection weapp_openid
@@ -123,7 +128,11 @@ namespace Dcat\Admin {
      * @method Grid\Column|Collection token(string $label = null)
      * @method Grid\Column|Collection product_id(string $label = null)
      * @method Grid\Column|Collection cid(string $label = null)
+     * @method Grid\Column|Collection cover(string $label = null)
      * @method Grid\Column|Collection series(string $label = null)
+     * @method Grid\Column|Collection titile(string $label = null)
+     * @method Grid\Column|Collection award(string $label = null)
+     * @method Grid\Column|Collection type(string $label = null)
      * @method Grid\Column|Collection province(string $label = null)
      * @method Grid\Column|Collection city(string $label = null)
      * @method Grid\Column|Collection district(string $label = null)
@@ -132,6 +141,7 @@ namespace Dcat\Admin {
      * @method Grid\Column|Collection contact_phone(string $label = null)
      * @method Grid\Column|Collection discount_id(string $label = null)
      * @method Grid\Column|Collection amount(string $label = null)
+     * @method Grid\Column|Collection task_id(string $label = null)
      * @method Grid\Column|Collection nickname(string $label = null)
      * @method Grid\Column|Collection weapp_avatar(string $label = null)
      * @method Grid\Column|Collection weapp_openid(string $label = null)
@@ -191,7 +201,11 @@ namespace Dcat\Admin {
      * @property Show\Field|Collection token
      * @property Show\Field|Collection product_id
      * @property Show\Field|Collection cid
+     * @property Show\Field|Collection cover
      * @property Show\Field|Collection series
+     * @property Show\Field|Collection titile
+     * @property Show\Field|Collection award
+     * @property Show\Field|Collection type
      * @property Show\Field|Collection province
      * @property Show\Field|Collection city
      * @property Show\Field|Collection district
@@ -200,6 +214,7 @@ namespace Dcat\Admin {
      * @property Show\Field|Collection contact_phone
      * @property Show\Field|Collection discount_id
      * @property Show\Field|Collection amount
+     * @property Show\Field|Collection task_id
      * @property Show\Field|Collection nickname
      * @property Show\Field|Collection weapp_avatar
      * @property Show\Field|Collection weapp_openid
@@ -254,7 +269,11 @@ namespace Dcat\Admin {
      * @method Show\Field|Collection token(string $label = null)
      * @method Show\Field|Collection product_id(string $label = null)
      * @method Show\Field|Collection cid(string $label = null)
+     * @method Show\Field|Collection cover(string $label = null)
      * @method Show\Field|Collection series(string $label = null)
+     * @method Show\Field|Collection titile(string $label = null)
+     * @method Show\Field|Collection award(string $label = null)
+     * @method Show\Field|Collection type(string $label = null)
      * @method Show\Field|Collection province(string $label = null)
      * @method Show\Field|Collection city(string $label = null)
      * @method Show\Field|Collection district(string $label = null)
@@ -263,6 +282,7 @@ namespace Dcat\Admin {
      * @method Show\Field|Collection contact_phone(string $label = null)
      * @method Show\Field|Collection discount_id(string $label = null)
      * @method Show\Field|Collection amount(string $label = null)
+     * @method Show\Field|Collection task_id(string $label = null)
      * @method Show\Field|Collection nickname(string $label = null)
      * @method Show\Field|Collection weapp_avatar(string $label = null)
      * @method Show\Field|Collection weapp_openid(string $label = null)
