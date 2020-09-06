@@ -57,4 +57,49 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(UserDiscount::class);
     }
+
+    //优惠券
+//    public function coupon()
+//    {
+//        return $this->belongsToMany(Coupon::class,'user_coupon')->withPivot(['status','not_before','not_after'])
+//            ->withTimestamps();
+//    }
+    public function coupon()
+    {
+        return $this->hasMany(UserCoupon::class);
+    }
+    public function task()
+    {
+        return $this->belongsToMany(Task::class, 'user_task')->withPivot('status')
+            ->withTimestamps();
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+        // 监听模型创建事件，在写入数据库之前触发
+        static::created(function ($model) {
+            $task=Task::all();
+            foreach ($task as $k=>$v)
+            {
+                if ($model->task()->find($v->id)) {
+                    return [];
+                }
+                $model->task()->attach($v);
+            }
+        });
+        static::updated(function($model) {
+            $task=Task::all();
+            foreach ($task as $k=>$v)
+            {
+                if ($model->task()->find($v->id)) {
+                    return [];
+                }
+                $model->task()->attach($v);
+            }
+        });
+    }
+
+
+
 }

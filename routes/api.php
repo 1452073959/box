@@ -44,6 +44,16 @@ $api->version('v1', [
         Route::get('productshow/{product}', 'Api\ProductController@show');
         //摇一摇
         Route::get('teeter/{product}', 'Api\ProductController@teeter');
+        //任务列表
+        Route::get('task', 'Api\TaskController@list');
+        //领取积分
+        Route::post('gain', 'Api\TaskController@gain');
+        //优惠券增加
+        Route::post('couponadd', 'Api\CouponController@add');
+        //我的优惠券列表
+        Route::get('coupon', 'Api\CouponController@list');
+        //优惠券使用
+        Route::post('coupondel', 'Api\CouponController@del');
     });
 
     // 登录

@@ -23,4 +23,9 @@ Route::group([
     //商城
 
     $router->resource('shop', 'ShopController');
+
+    //任务
+    $router->resource('task', 'TaskController');
+    //优惠券
+    $router->resource('counpon', 'CouponController');
 });
