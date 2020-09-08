@@ -75,7 +75,7 @@ $api->version('v1', [
     $api->get('cate', 'ProductController@cate');
 
 //    商品支付通知
-    $api->any('notify', 'CommodityController@notify');
+    $api->any('notify', 'OrderController@notify');
 
     //商品列表
     $api->get('product', 'ProductController@index');
