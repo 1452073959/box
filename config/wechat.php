@@ -111,8 +111,8 @@ return [
          'default' => [
              'sandbox'            => env('WECHAT_PAYMENT_SANDBOX', false),
              'app_id'             => env('WECHAT_PAYMENT_APPID', 'wx002d9cfde7973324'),
-             'mch_id'             => env('WECHAT_PAYMENT_MCH_ID', '1601052297'),
-             'key'                => env('WECHAT_PAYMENT_KEY', '1c90621d6dbc02ce91aa09b8739aapay'),
+             'mch_id'             => env('WECHAT_PAYMENT_MCH_ID', '1602261328'),
+             'key'                => env('WECHAT_PAYMENT_KEY', '8c90621d6dbc02ce91aa09b8739aapay'),
              'cert_path'          => env('WECHAT_PAYMENT_CERT_PATH', 'path/to/cert/apiclient_cert.pem'),    // XXX: 绝对路径！！！！
              'key_path'           => env('WECHAT_PAYMENT_KEY_PATH', 'path/to/cert/apiclient_key.pem'),      // XXX: 绝对路径！！！！
              'notify_url'         => 'http://example.com/payments/wechat-notify',                           // 默认支付结果通知地址

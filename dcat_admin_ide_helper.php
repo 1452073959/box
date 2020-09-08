@@ -52,6 +52,8 @@ namespace Dcat\Admin {
      * @property Grid\Column|Collection avatar
      * @property Grid\Column|Collection remember_token
      * @property Grid\Column|Collection image
+     * @property Grid\Column|Collection num
+     * @property Grid\Column|Collection described
      * @property Grid\Column|Collection money
      * @property Grid\Column|Collection min_amount
      * @property Grid\Column|Collection connection
@@ -75,7 +77,6 @@ namespace Dcat\Admin {
      * @property Grid\Column|Collection series
      * @property Grid\Column|Collection award
      * @property Grid\Column|Collection integral
-     * @property Grid\Column|Collection num
      * @property Grid\Column|Collection province
      * @property Grid\Column|Collection city
      * @property Grid\Column|Collection district
@@ -134,6 +135,8 @@ namespace Dcat\Admin {
      * @method Grid\Column|Collection avatar(string $label = null)
      * @method Grid\Column|Collection remember_token(string $label = null)
      * @method Grid\Column|Collection image(string $label = null)
+     * @method Grid\Column|Collection num(string $label = null)
+     * @method Grid\Column|Collection described(string $label = null)
      * @method Grid\Column|Collection money(string $label = null)
      * @method Grid\Column|Collection min_amount(string $label = null)
      * @method Grid\Column|Collection connection(string $label = null)
@@ -157,7 +160,6 @@ namespace Dcat\Admin {
      * @method Grid\Column|Collection series(string $label = null)
      * @method Grid\Column|Collection award(string $label = null)
      * @method Grid\Column|Collection integral(string $label = null)
-     * @method Grid\Column|Collection num(string $label = null)
      * @method Grid\Column|Collection province(string $label = null)
      * @method Grid\Column|Collection city(string $label = null)
      * @method Grid\Column|Collection district(string $label = null)
@@ -221,6 +223,8 @@ namespace Dcat\Admin {
      * @property Show\Field|Collection avatar
      * @property Show\Field|Collection remember_token
      * @property Show\Field|Collection image
+     * @property Show\Field|Collection num
+     * @property Show\Field|Collection described
      * @property Show\Field|Collection money
      * @property Show\Field|Collection min_amount
      * @property Show\Field|Collection connection
@@ -244,7 +248,6 @@ namespace Dcat\Admin {
      * @property Show\Field|Collection series
      * @property Show\Field|Collection award
      * @property Show\Field|Collection integral
-     * @property Show\Field|Collection num
      * @property Show\Field|Collection province
      * @property Show\Field|Collection city
      * @property Show\Field|Collection district
@@ -303,6 +306,8 @@ namespace Dcat\Admin {
      * @method Show\Field|Collection avatar(string $label = null)
      * @method Show\Field|Collection remember_token(string $label = null)
      * @method Show\Field|Collection image(string $label = null)
+     * @method Show\Field|Collection num(string $label = null)
+     * @method Show\Field|Collection described(string $label = null)
      * @method Show\Field|Collection money(string $label = null)
      * @method Show\Field|Collection min_amount(string $label = null)
      * @method Show\Field|Collection connection(string $label = null)
@@ -326,7 +331,6 @@ namespace Dcat\Admin {
      * @method Show\Field|Collection series(string $label = null)
      * @method Show\Field|Collection award(string $label = null)
      * @method Show\Field|Collection integral(string $label = null)
-     * @method Show\Field|Collection num(string $label = null)
      * @method Show\Field|Collection province(string $label = null)
      * @method Show\Field|Collection city(string $label = null)
      * @method Show\Field|Collection district(string $label = null)

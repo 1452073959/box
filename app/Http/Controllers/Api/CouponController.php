@@ -17,12 +17,25 @@ class CouponController extends Controller
         return $this->success('领取成功');
     }
 
-    public function list()
+    public function list(Request $request )
     {
         $user = auth('api')->user();
-        $task = $user->coupon()->with('coupon')->get();
+        $where=[];
+        if ($request->input('status')) {
+            $where[] = ['status', $request->input('status')];
+        }
+        $task = $user->coupon()->with('coupon')->where($where)->paginate(10);
         return $this->success($task);
     }
+
+    public function  show(Request $request)
+    {
+        $user = auth('api')->user();
+        $id = $request->input('id');
+        $coupon = $user->coupon()->with('coupon')->where('id', $id)->first();
+        return $this->success($coupon);
+    }
+
 
     //优惠券使用
     public function del(Request $request)

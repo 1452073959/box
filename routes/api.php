@@ -52,8 +52,17 @@ $api->version('v1', [
         Route::post('couponadd', 'Api\CouponController@add');
         //我的优惠券列表
         Route::get('coupon', 'Api\CouponController@list');
+//        优惠券详情
+        Route::get('couponshow', 'Api\CouponController@show');
         //优惠券使用
         Route::post('coupondel', 'Api\CouponController@del');
+        //商品下单
+        //创建订单,发起支付
+        Route::any('pay','Api\OrderController@pay');
+        //订单列表
+        Route::get('orderlist', 'Api\OrderController@index');
+        //订单详情
+        Route::get('orders/{order}', 'Api\OrderController@show');
     });
 
     // 登录
@@ -65,6 +74,9 @@ $api->version('v1', [
     //分类的接口
     $api->get('cate', 'ProductController@cate');
 
+//    商品支付通知
+    $api->any('commodity/notify', 'CommodityController@tongzhi');
+
     //商品列表
     $api->get('product', 'ProductController@index');
     //抽盒推荐
@@ -74,5 +86,9 @@ $api->version('v1', [
     Route::get('shop/{shop}', 'Api\ProductController@shopshow');
     //商城推荐
     $api->get('shopstick', 'ProductController@shopstick');
+
+
+    //测试路由
+    $api->any('cache', 'OrderController@cache');
 
 });

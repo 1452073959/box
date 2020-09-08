@@ -28,4 +28,6 @@ Route::group([
     $router->resource('task', 'TaskController');
     //优惠券
     $router->resource('counpon', 'CouponController');
+    //兑换
+    $router->resource('conversion', 'ConversionController');
 });
