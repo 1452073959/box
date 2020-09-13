@@ -44,7 +44,7 @@ class WechatController extends Controller
 
 //        $token= auth('api')->login($user);
         $token =auth('api')->tokenById($user['id']);
-        return $this->respondWithToken($token);
+        return  $this->success($this->respondWithToken($token));
 //        return $this->success(['openid'=>$weappOpenid,'token'=>$user['token']]);
     }
 
@@ -52,7 +52,7 @@ class WechatController extends Controller
     public function tokenupdate()
     {
         $token = auth('api')->refresh();
-        return $this->respondWithToken($token);
+        return $this->success($this->respondWithToken($token)) ;
     }
     //用户信息
     public function usershow(Request $request)
