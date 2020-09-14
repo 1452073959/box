@@ -2,11 +2,12 @@
 
 namespace App\Admin\Controllers;
 
-use App\Models\Order;
+use App\Admin\Repositories\Order;
 use Dcat\Admin\Form;
 use Dcat\Admin\Grid;
 use Dcat\Admin\Show;
 use Dcat\Admin\Controllers\AdminController;
+use Dcat\Admin\Layout\Content;
 
 class OrderController extends AdminController
 {
@@ -18,24 +19,45 @@ class OrderController extends AdminController
     protected function grid()
     {
         return Grid::make(new Order(), function (Grid $grid) {
-            $grid->column('id')->sortable();
-            $grid->column('no');
-            $grid->column('user_id');
-            $grid->column('address');
-            $grid->column('total_amount');
-            $grid->column('remark');
-            $grid->column('paid_at');
-            $grid->column('payment_no');
-            $grid->column('status');
-            $grid->column('ship_data');
-            $grid->column('type');
-            $grid->column('created_at');
-            $grid->column('updated_at')->sortable();
-        
+
+            $grid->model()->whereIn('status',[ 2, 3])->orderBy('created_at', 'desc');
+//            $grid->id->sortable();
+            $grid->no;
+            $grid->model()->with(['user']);
+            $grid->column('user.nickname','用户');
+//            $grid->user_id;
+//            $grid->address;
+            $grid->total_amount;
+//            $grid->remark;
+            $grid->paid_at;
+//            $grid->payment_no;
+            $grid->status->using([1 => '未支付', 2 => '未发货',3=>'已发货'])->filter(
+                Grid\Column\Filter\In::make([
+                    0 => '未知',
+                    1 => '未支付',
+                    2 => '未发货',
+                    3 => '已发货',
+                ])
+            );
+//            $grid->ship_data;
+//            $grid->created_at;
+//            $grid->updated_at->sortable();
+            // 显示
+            $grid->showFilter();
+
             $grid->filter(function (Grid\Filter $filter) {
-                $filter->equal('id');
-        
+
+//                $filter->equal('id');
+                $filter->like('no', '商户订单号');
+                $filter->like('user.nickname', '用户');
+
             });
+            $grid->disableDeleteButton();
+            $grid->disableEditButton();
+            $grid->disableQuickEditButton();
+            //关闭新增按钮
+            $grid->disableCreateButton();
+//            $grid->disableViewButton();
         });
     }
 
@@ -46,23 +68,13 @@ class OrderController extends AdminController
      *
      * @return Show
      */
-    protected function detail($id)
+
+    public  function show($id ,Content $content)
     {
-        return Show::make($id, new Order(), function (Show $show) {
-            $show->field('id');
-            $show->field('no');
-            $show->field('user_id');
-            $show->field('address');
-            $show->field('total_amount');
-            $show->field('remark');
-            $show->field('paid_at');
-            $show->field('payment_no');
-            $show->field('status');
-            $show->field('ship_data');
-            $show->field('type');
-            $show->field('created_at');
-            $show->field('updated_at');
-        });
+//        dd( \App\Models\CommodityOrder::find($id)->toarray());
+        return $content->header('订单')
+            ->description('详情')
+            ->body(view('orders.show', ['order' => \App\Models\Order::find($id)]));
     }
 
     /**
@@ -73,7 +85,7 @@ class OrderController extends AdminController
     protected function form()
     {
         return Form::make(new Order(), function (Form $form) {
-            $form->display('id');
+//            $form->display('id');
             $form->text('no');
             $form->text('user_id');
             $form->text('address');
@@ -83,8 +95,8 @@ class OrderController extends AdminController
             $form->text('payment_no');
             $form->text('status');
             $form->text('ship_data');
-            $form->text('type');
-        
+            // 去除整个工具栏内容
+            $form->disableHeader();
             $form->display('created_at');
             $form->display('updated_at');
         });

@@ -32,4 +32,6 @@ Route::group([
     $router->resource('conversion', 'ConversionController');
     //首页轮播
     $router->resource('swipe', 'SwipeController');
+    //订单管理
+    $router->resource('order', 'OrderController');
 });
