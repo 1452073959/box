@@ -45,7 +45,7 @@ class OrderController extends Controller
                     $sku  = ProductSku::find($v['sku_id']);
                     $item = $order->items()->make([
                         'amount' => $v['amount'],
-                        'price' => $v->price,
+                        'price' => $sku->price,
                     ]);
                     $item->product()->associate($sku->product_id);
                     $item->productSku()->associate($sku);
