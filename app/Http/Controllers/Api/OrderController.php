@@ -45,7 +45,7 @@ class OrderController extends Controller
                     $sku  = ProductSku::find($v['sku_id']);
                     $item = $order->items()->make([
                         'amount' => $v['amount'],
-                        'price' => $sku->price,
+                        'price' => $v->price,
                     ]);
                     $item->product()->associate($sku->product_id);
                     $item->productSku()->associate($sku);
@@ -62,6 +62,9 @@ class OrderController extends Controller
         {
             $user->balance=$user['balance']-$order['total_amount'];
             $user->save();
+            $order->status=2;
+            $order->paid_at = date('Y-m-d H:i:s', time());
+            $order->save();
             return $this->success(['msg'=>'余额支付成功','balance'=>$user['balance']]);
         }else{
 
