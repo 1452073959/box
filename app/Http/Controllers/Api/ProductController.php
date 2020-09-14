@@ -103,8 +103,9 @@ class ProductController extends Controller
         $num=2;
         // 如果用户提交了优惠码
         if ($coupon = $request->input('coupon')) {
-            $cartItems = $user->userDiscount()->with(['discount'])->where('id',$coupon)->first();
 
+            $cartItems = $user->userDiscount()->with(['discount'])->where('discount_id',$coupon)->first();
+//            dd($cartItems->toarray());
             if(!$cartItems['amount']){
                 return $this->success('没有该卡了');
             }
