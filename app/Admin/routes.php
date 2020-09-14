@@ -30,4 +30,6 @@ Route::group([
     $router->resource('counpon', 'CouponController');
     //兑换
     $router->resource('conversion', 'ConversionController');
+    //首页轮播
+    $router->resource('swipe', 'SwipeController');
 });

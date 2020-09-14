@@ -57,34 +57,47 @@ class OrderController extends Controller
             return $order;
         });
 //        dd($order);
-        //支付逻辑
-        $payment = \EasyWeChat::payment(); // 微信支付
-        $result = $payment->order->unify([
-            'body' => '商城订单',
-            'out_trade_no' => $order['no'],
-            'trade_type' => 'JSAPI',  // 必须为JSAPI
-            'openid' => $user['weapp_openid'], // 这里的openid为付款人的openid
-            'total_fee' => $order['total_amount'] * 100, // 总价
-            'notify_url' => config('app.url') . 'api/notify'
-        ]);
+
+        if($user['balance']>0&&$user['balance']>$order['total_amount'])
+        {
+            $user->balance=$user['balance']-$order['total_amount'];
+            $user->save();
+            return $this->success(['msg'=>'余额支付成功','balance'=>$user['balance']]);
+        }else{
+
+            $order['total_amount']=$order['total_amount']-$user['balance'];
+            $user->balance=0;
+            $user->save();
+            //支付逻辑
+            $payment = \EasyWeChat::payment(); // 微信支付
+            $result = $payment->order->unify([
+                'body' => '商城订单',
+                'out_trade_no' => $order['no'],
+                'trade_type' => 'JSAPI',  // 必须为JSAPI
+                'openid' => $user['weapp_openid'], // 这里的openid为付款人的openid
+                'total_fee' => $order['total_amount'] * 100, // 总价
+                'notify_url' => config('app.url') . 'api/notify'
+            ]);
 //dd($result);
 // 如果成功生成统一下单的订单，那么进行二次签名
-        if ($result['return_code'] === 'SUCCESS') {
-            // 二次签名的参数必须与下面相同
-            $params = [
-                'appId' => 'wx002d9cfde7973324',
-                'timeStamp' => (string)time(),
-                'nonceStr' => $result['nonce_str'],
-                'package' => 'prepay_id=' . $result['prepay_id'],
-                'signType' => 'MD5',
-            ];
+            if ($result['return_code'] === 'SUCCESS') {
+                // 二次签名的参数必须与下面相同
+                $params = [
+                    'appId' => 'wx002d9cfde7973324',
+                    'timeStamp' => (string)time(),
+                    'nonceStr' => $result['nonce_str'],
+                    'package' => 'prepay_id=' . $result['prepay_id'],
+                    'signType' => 'MD5',
+                ];
 
-            // config('wechat.payment.default.key')为商户的key
-            $params['paySign'] = generate_sign($params, config('wechat.payment.default.key'));
-            return $params;
-        } else {
-            return $result;
+                // config('wechat.payment.default.key')为商户的key
+                $params['paySign'] = generate_sign($params, config('wechat.payment.default.key'));
+                return $params;
+            } else {
+                return $result;
+            }
         }
+
     }
 
     public function notify()

@@ -45,6 +45,7 @@ class AddressesController extends Controller
     //修改
     public function update(UserAddress $user_address, UserAddressRequest $request)
     {
+        $user = auth('api')->user();
         $user_address->update($request->only([
             'province',
             'city',
@@ -53,6 +54,11 @@ class AddressesController extends Controller
             'contact_name',
             'contact_phone',
         ]));
+        //设置默认收货地址
+        if(request('default')){
+            $user->defaultaddress_id=$user_address['id'];
+            $user->save();
+        }
         return $this->success($user_address);
     }
     //删除地址

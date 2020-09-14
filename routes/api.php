@@ -37,6 +37,10 @@ $api->version('v1', [
         Route::get('task', 'Api\TaskController@list');
         //领取积分
         Route::post('gain', 'Api\TaskController@gain');
+        //积分更新
+        Route::post('gainupdate', 'Api\Discountuser@gainupdate');
+        //优惠券列表
+        Route::get('couponlist', 'Api\CouponController@couponlist');
         //优惠券增加
         Route::post('couponadd', 'Api\CouponController@add');
         //我的优惠券列表
@@ -53,8 +57,6 @@ $api->version('v1', [
         //订单详情
         Route::get('orders/{order}', 'Api\OrderController@show');
     });
-
-
 
     // 登录
     $api->post('logincode', 'WechatController@wechat');
@@ -75,14 +77,13 @@ $api->version('v1', [
     //商城商品
     $api->get('shop', 'ProductController@shop');
     Route::get('shop/{shop}', 'Api\ProductController@shopshow');
+    //首页banner
+    $api->get('swipe', 'WechatController@image');
 
     //商城推荐
     $api->get('shopstick', 'ProductController@shopstick');
-
     //卡列表
     Route::get('cardlist', 'Api\Discountuser@kabiao');
-
-
     //测试路由
     $api->any('cache', 'OrderController@cache');
 

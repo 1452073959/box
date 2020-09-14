@@ -19,16 +19,16 @@ class Discountuser extends Controller
         $skuId  = $request->input('discount_id');
         $amount = $request->input('amount');
 //        dd($user->userDiscount()->get());
-        // 从数据库中查询该商品是否已经在购物车中
+        // 从数据库中是否已经存在
         if ($cart = $user->userDiscount()->where('discount_id', $skuId)->first()) {
 
-            // 如果存在则直接叠加商品数量
+            // 如果存在则直接叠加数量
             $cart->update([
                 'amount' => $cart->amount + $amount,
             ]);
         } else {
 
-            // 否则创建一个新的购物车记录
+            // 否则创建一个新的记录
             $cart = new UserDiscount(['amount' => $amount]);
             $cart->user()->associate($user);
             $cart->discount()->associate($skuId);
@@ -52,18 +52,14 @@ class Discountuser extends Controller
         return $this->success($res);
     }
 
-    //购物车编辑
-    public function update(Request $request )
+    //用户积分更新
+    public function gainupdate(Request $request)
     {
-        $data=request('product_id');
-        $amount = $request->input('amount');
         $user = auth('api')->user();
-        $res= CartItem::where('user_id',$user['id'])->where('product_id',$data)->update([
-            'amount' => $amount,
-        ]);
-        $totalprice = 0;
-        $sku = Product::find($data);
-        $totalprice += $sku->price * $amount;
-        return $this->success(['totalprice'=>$totalprice]);
+        $user = User::find($user['id']);
+        $user->balance=$request->input('balance',$user['balance']);
+        $user->integral=$request->input('integral',$user['integral']);
+        $user->save();
+        return $this->success($user);
     }
 }

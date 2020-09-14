@@ -94,6 +94,7 @@ class ProductController extends AdminController
                 return json_encode($paths);
             })->uniqueName();
             $form->image('cover')->uniqueName()->required();
+            $form->image('img')->uniqueName()->required();
             $form->text('price')->required();
             $form->number('number')->required();
 

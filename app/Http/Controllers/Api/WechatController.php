@@ -11,6 +11,7 @@ use Cache;
 use App\Models\User;
 use Storage;
 use Illuminate\Support\Str;
+use App\Models\Swipe;
 class WechatController extends Controller
 {
     //登陆
@@ -93,7 +94,8 @@ class WechatController extends Controller
 
     public function image()
     {
-        echo 123;
+        $data=Swipe::all();
+        return $this->success($data);
     }
 
 

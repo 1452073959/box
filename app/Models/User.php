@@ -59,12 +59,13 @@ class User extends Authenticatable implements JWTSubject
     }
 
     //优惠券
-//    public function coupon()
-//    {
-//        return $this->belongsToMany(Coupon::class,'user_coupon')->withPivot(['status','not_before','not_after'])
-//            ->withTimestamps();
-//    }
     public function coupon()
+    {
+        return $this->belongsToMany(Coupon::class,'user_coupon')->withPivot(['status','not_before','not_after'])
+            ->withTimestamps();
+    }
+    //
+    public function usercoupon()
     {
         return $this->hasMany(UserCoupon::class);
     }
