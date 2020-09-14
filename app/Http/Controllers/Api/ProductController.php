@@ -106,10 +106,10 @@ class ProductController extends Controller
             $cartItems = $user->userDiscount()->with(['discount'])->where('id',$coupon)->first();
 
             if(!$cartItems['amount']){
-                return $this->failed('没有该卡了');
+                return $this->success('没有该卡了');
             }
             if($teetercouunt<=2){
-                return $this->failed('您的普通摇卡次数还没用完');
+                return $this->success('您的普通摇卡次数还没用完');
             }
             if($cartItems['discount_id']==1){
                 $num=3;
