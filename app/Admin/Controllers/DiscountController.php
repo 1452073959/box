@@ -21,7 +21,9 @@ class DiscountController extends AdminController
             $grid->column('id')->sortable();
             $grid->column('name');
             $grid->column('description');
-        
+            $grid->column('num');
+            $grid->column('price');
+
             $grid->filter(function (Grid\Filter $filter) {
                 $filter->equal('id');
         
@@ -56,6 +58,8 @@ class DiscountController extends AdminController
             $form->display('id');
             $form->text('name');
             $form->text('description');
+            $form->text('num');
+            $form->text('price');
         });
     }
 }

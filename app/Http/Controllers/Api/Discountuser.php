@@ -12,12 +12,10 @@ use App\Models\UserDiscount;
 //卡券
 class Discountuser extends Controller
 {
-    //添加商品到购物车
+
     public function add(Request $request)
     {
         $user = auth('api')->user();
-
-//        dd($user);
         $skuId  = $request->input('discount_id');
         $amount = $request->input('amount');
 //        dd($user->userDiscount()->get());
@@ -31,7 +29,6 @@ class Discountuser extends Controller
         } else {
 
             // 否则创建一个新的购物车记录
-
             $cart = new UserDiscount(['amount' => $amount]);
             $cart->user()->associate($user);
             $cart->discount()->associate($skuId);
@@ -48,7 +45,7 @@ class Discountuser extends Controller
         $cartItems = $user->userDiscount()->with(['discount'])->get();
         return $this->success($cartItems);
     }
-    //移除购物车
+    //卡的列表
     public function kabiao( )
     {
         $res= Discount::all();

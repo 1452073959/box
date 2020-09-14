@@ -2,16 +2,6 @@
 
 use Illuminate\Http\Request;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
 
 $api = app(\Dingo\Api\Routing\Router::class);
 
@@ -21,13 +11,12 @@ $api->version('v1', [
 ], function ($api) {
     //需要登录
     Route::middleware('jwt.auth')->group(function ($api) {
-        Route::get('cardlist', 'Api\Discountuser@kabiao');
+
         //
         //添加卡
         Route::post('discount', 'Api\Discountuser@add');
         //查看卡
         Route::get('card', 'Api\Discountuser@index');
-
         //收货地址列表
         Route::get('addresses', 'Api\AddressesController@index');
         //新增收货地址
@@ -65,6 +54,8 @@ $api->version('v1', [
         Route::get('orders/{order}', 'Api\OrderController@show');
     });
 
+
+
     // 登录
     $api->post('logincode', 'WechatController@wechat');
     //用户信息
@@ -84,8 +75,12 @@ $api->version('v1', [
     //商城商品
     $api->get('shop', 'ProductController@shop');
     Route::get('shop/{shop}', 'Api\ProductController@shopshow');
+
     //商城推荐
     $api->get('shopstick', 'ProductController@shopstick');
+
+    //卡列表
+    Route::get('cardlist', 'Api\Discountuser@kabiao');
 
 
     //测试路由
