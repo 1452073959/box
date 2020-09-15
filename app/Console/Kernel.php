@@ -4,7 +4,7 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-
+use Illuminate\Support\Facades\DB;
 class Kernel extends ConsoleKernel
 {
     /**
@@ -24,9 +24,12 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
-        $schedule->command('cron:calculate-installment-fine')->daily();
+        $schedule->call(function () {
+
+            DB::table('users')->update(['todaynumber'=>0]);
+            DB::table('user_task')->update(['status'=>1]);
+        })->daily();
+//        $schedule->command('cron:calculate-installment-fine')->daily();
     }
 
     /**
