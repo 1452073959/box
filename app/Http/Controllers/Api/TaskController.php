@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Api\Controller;
 use Illuminate\Http\Request;
 use DB;
+use App\Models\Order;
+
 class TaskController extends Controller
 {
     //
@@ -12,7 +14,21 @@ class TaskController extends Controller
     public function list()
     {
         $user = auth('api')->user();
+        $time=date('Y-m-d',time());
+        $num=Order::whereDate('created_at',$time)->where('type',1)->where('status','>=',2)->count();
+        $user->todaynumber=$num;
+        $user->save();
         $task= $user->task()->get();
+            foreach ($task as $k=>$v)
+            {
+              if($v['num']<=$user['todaynumber']){
+                    if($v->pivot->status==1){
+                        $user->task()->updateExistingPivot($v['id'],['status'=>2]);
+                    }
+              }
+            }
+        $task= $user->task()->get();
+
         return $this->success($task);
     }
     //完成任务;领取积分

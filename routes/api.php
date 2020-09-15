@@ -89,6 +89,8 @@ $api->version('v1', [
     $api->get('shopstick', 'ProductController@shopstick');
     //卡列表
     Route::get('cardlist', 'Api\Discountuser@kabiao');
+    //订单发货
+    $api->post('shipments', 'OrderController@shipments');
     //测试路由
     $api->any('cache', 'OrderController@cache');
 

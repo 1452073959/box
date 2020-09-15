@@ -259,6 +259,30 @@ class OrderController extends Controller
     }
 
 
+    //订单发货
+    public function shipments(Order $order, Request $request)
+    {
+        // 判断当前订单是否已支付
+        $id = $request->id;
+        $data = $request->all();
+        unset($data['id']);
+        if ($data['express_company'] == null) {
+            return $this->success('请填写物流公司');
+        }
+        if ($data['express_no'] == null) {
+            return $this->success('请填写单号');
+        }
+        // 将订单发货状态改为已发货，并存入物流信息
+        DB::table('order')->where('id', $id)->update([
+            'status' => 3,
+            // 我们在 Order 模型的 $casts 属性里指明了 ship_data 是一个数组
+            // 因此这里可以直接把数组传过去
+            'ship_data' => $data,
+        ]);
+
+        return $this->success('发货成功');
+    }
+
     //测试方法
     public function cache(Request $request)
     {

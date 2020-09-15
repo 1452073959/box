@@ -71,7 +71,7 @@ class OrderController extends AdminController
 
     public  function show($id ,Content $content)
     {
-//        dd( \App\Models\CommodityOrder::find($id)->toarray());
+//        dump( \App\Models\Order::find($id)->toarray());
         return $content->header('订单')
             ->description('详情')
             ->body(view('orders.show', ['order' => \App\Models\Order::find($id)]));
