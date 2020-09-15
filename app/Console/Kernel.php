@@ -29,8 +29,8 @@ class Kernel extends ConsoleKernel
         $schedule->call(function () {
             DB::table('users')->update(['todaynumber'=>0]);
             DB::table('user_task')->update(['status'=>1]);
-//        })->daily();
-        })->everyMinute();
+        })->daily();
+//        })->everyMinute();
 //        $schedule->command('cron:calculate-installment-fine')->daily();
     }
 
