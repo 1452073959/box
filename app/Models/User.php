@@ -100,6 +100,12 @@ class User extends Authenticatable implements JWTSubject
             }
         });
     }
+    ///用户充值
+    ///
+    public function recharge()
+    {
+        return $this->hasMany(Recharge::class);
+    }
 
 
 

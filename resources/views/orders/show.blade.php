@@ -26,20 +26,37 @@
                 <td>收货地址</td>
                 <td colspan="3">{{ $order->address['address'] }} {{ $order->address['contact_name'] }} {{ $order->address['contact_phone'] }}</td>
             </tr>
-
+            @if($order->type==2)
+                <tr>
+                    <td rowspan="{{ $order->items->count() + 1 }}">订单类型</td>
+                    <td>商品名称</td>
+                    <td>单价</td>
+                    {{--<td>数量</td>--}}
+                </tr>
+                <tr>
+                    <td>商城商品 </td>
+                    <td>{{$order->shop->titile}} </td>
+                    <td>￥{{ $order->shop->price }}</td>
+                    {{--<td>{{ $order->amount }}</td>--}}
+                </tr>
+            @else
             <tr>
-                <td rowspan="{{ $order->items->count() + 1 }}">商品列表</td>
+
+                <td rowspan="{{ $order->items->count() + 1 }}">订单类型:         抽盒商品 </td>
                 <td>商品名称</td>
                 <td>单价</td>
                 <td>数量</td>
             </tr>
+
             @foreach($order->items as $item)
                 <tr>
-                    <td>{{ $item->product->title }} </td>
-                    <td>￥{{ $item->price }}</td>
+                    <td>{{ $item->product->title }}  {{ $item->productSku->title }} </td>
+                    <td>￥{{ $item->product->price }}</td>
                     <td>{{ $item->amount }}</td>
                 </tr>
             @endforeach
+
+            @endif
             <tr>
                 <td>订单金额：</td>
                 <td colspan="3">￥{{ $order->total_amount }}</td>

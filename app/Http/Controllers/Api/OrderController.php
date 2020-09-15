@@ -3,13 +3,15 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Api\Controller;
+use App\Models\Recharge;
 use Illuminate\Http\Request;
 use function EasyWeChat\Kernel\Support\generate_sign;
-use Db;
+use Illuminate\Support\Facades\DB;
 use App\Models\Order;
 use App\Models\ProductSku;
 use App\Models\Product;
-use Cache;
+use Illuminate\Support\Facades\Cache;
+use App\Models\UserDiscount;
 class OrderController extends Controller
 {
     //
@@ -17,8 +19,7 @@ class OrderController extends Controller
     {
         $user = auth('api')->user();
 //        dd($user);
-        $order = \DB::transaction(function () use ($user, $request) {
-
+        $order = DB::transaction(function () use ($user, $request) {
 
             if($request->input('type')==2){
                 $data = $request->all();
@@ -159,10 +160,105 @@ class OrderController extends Controller
         $show=  $order->load(['items.productSku', 'items.product','shop']);
         return $this->success($show);
     }
+    //使用后悔卡
+    public function regret(Order $order)
+    {
+        $user = auth('api')->user();
+
+        $cartItems = $user->userDiscount()->with(['discount'])->where('discount_id',3)->first();
+
+        if(!$cartItems['amount']){
+            return $this->success('没有该卡了,请先去兑换');
+        }
+        if($order['status']==2&&$order['type']==1){
+            $order->status=4;
+            $order->save();
+            UserDiscount::where('user_id',$user['id'])->where('discount_id',$cartItems['discount_id'])->update([
+                'amount' => $cartItems['amount']-1,
+            ]);
+            return  $this->success('订单已取消');
+        }else{
+            return $this->success('只有未发货的抽盒订单才能使用后悔卡');
+        }
+
+    }
+
+    //用户充值余额
+
+    public function recharge(Request $request)
+    {
+        $user = auth('api')->user();
+//        DB::transaction(function () use ($user, $request) {
+        $order=   DB::transaction(function ()  use ($user, $request){
+            $order=  $user->recharge()->create([
+               'money'=> $request->input('money'),
+               'action'=> '充值',
+                'status'=>1,
+            ]);
+            return $order;
+        });
+
+        //支付逻辑
+        $payment = \EasyWeChat::payment(); // 微信支付
+        $result = $payment->order->unify([
+            'body' => '充值订单',
+            'out_trade_no' => $order['no'],
+            'trade_type' => 'JSAPI',  // 必须为JSAPI
+            'openid' => $user['weapp_openid'], // 这里的openid为付款人的openid
+            'total_fee' => $order['money'] * 100, // 总价
+            'notify_url' => config('app.url') . 'api/recharge/notify'
+        ]);
+//dd($result);
+// 如果成功生成统一下单的订单，那么进行二次签名
+        if ($result['return_code'] === 'SUCCESS') {
+            // 二次签名的参数必须与下面相同
+            $params = [
+                'appId' => 'wx002d9cfde7973324',
+                'timeStamp' => (string)time(),
+                'nonceStr' => $result['nonce_str'],
+                'package' => 'prepay_id=' . $result['prepay_id'],
+                'signType' => 'MD5',
+            ];
+
+            // config('wechat.payment.default.key')为商户的key
+            $params['paySign'] = generate_sign($params, config('wechat.payment.default.key'));
+            return $params;
+        } else {
+            return $result;
+        }
+    }
+
+    public function rechagenotify()
+    {
+        Cache::put('key1', date('Y-m-d H:i:s', time()));
+        $app = \EasyWeChat::payment(); // 微信支付
+        $response = $app->handlePaidNotify(function ($message, $fail) {
+            //数据库找到订单
+            Cache::put('key', $message);
+            $order = Recharge::where('no', $message['out_trade_no'])->first();
+            if (!$order || $order['paid_at']) { // 如果订单不存在 或者 订单已经支付过了
+                return; // 告诉微信，我已经处理完了，订单没找到，别再通知我了
+            }
+            if ($message['return_code'] === 'SUCCESS') { // return_code 表示通信状态，不代表支付状态
+                // 用户是否支付成功
+                $order->paid_at = time();; // 更新支付时间为当前时间
+                $order->status = 2;
+                $user = User::where('id', $order['user_id'])->first();
+                $user->balance = ($user['balance']+=0) + $order['money'];
+                $user->save();
+            } else {
+                $order->status = 0;
+                return $fail('通信失败，请稍后再通知我');
+            }
+            $order->save();
+
+        });
+        return $response;
+    }
 
 
     //测试方法
-    public function cache()
+    public function cache(Request $request)
     {
         $value = Cache::get('key');
         $value1 = Cache::get('key1');

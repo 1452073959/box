@@ -12,7 +12,9 @@ $api->version('v1', [
     //需要登录
     Route::middleware('jwt.auth')->group(function ($api) {
 
-        //
+        //使用后悔卡
+        Route::get('regret/{order}', 'Api\OrderController@regret');
+
         //添加卡
         Route::post('discount', 'Api\Discountuser@add');
         //查看卡
@@ -56,6 +58,8 @@ $api->version('v1', [
         Route::get('orderlist', 'Api\OrderController@index');
         //订单详情
         Route::get('orders/{order}', 'Api\OrderController@show');
+        //用户充值下单
+        Route::get('recharge', 'Api\OrderController@recharge');
     });
 
     // 登录
@@ -69,6 +73,7 @@ $api->version('v1', [
 
 //    商品支付通知
     $api->any('notify', 'OrderController@notify');
+    $api->any('recharge/notify', 'OrderController@rechagenotify');
 
     //商品列表
     $api->get('product', 'ProductController@index');
@@ -86,5 +91,6 @@ $api->version('v1', [
     Route::get('cardlist', 'Api\Discountuser@kabiao');
     //测试路由
     $api->any('cache', 'OrderController@cache');
+
 
 });
