@@ -59,7 +59,7 @@ $api->version('v1', [
         //订单详情
         Route::get('orders/{order}', 'Api\OrderController@show');
         //用户充值下单
-        Route::get('recharge', 'Api\OrderController@recharge');
+        Route::any('recharge', 'Api\OrderController@recharge');
     });
 
     // 登录
