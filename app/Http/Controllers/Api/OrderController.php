@@ -12,6 +12,7 @@ use App\Models\ProductSku;
 use App\Models\Product;
 use Illuminate\Support\Facades\Cache;
 use App\Models\UserDiscount;
+use App\Models\User;
 class OrderController extends Controller
 {
     //
@@ -235,6 +236,7 @@ class OrderController extends Controller
         $response = $app->handlePaidNotify(function ($message, $fail) {
             //数据库找到订单
             Cache::put('key', $message);
+
             $order = Recharge::where('no', $message['out_trade_no'])->first();
             if (!$order || $order['paid_at']) { // 如果订单不存在 或者 订单已经支付过了
                 return; // 告诉微信，我已经处理完了，订单没找到，别再通知我了
