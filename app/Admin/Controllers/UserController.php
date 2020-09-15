@@ -26,11 +26,11 @@ class UserController extends AdminController
             $grid->column('created_at');
             $grid->column('updated_at')->sortable();
 
-            //关闭操作
-//            $grid->disableActions();
-            $grid->disableViewButton();
             //关闭新增按钮
-//            $grid->disableCreateButton();
+            $grid->disableCreateButton();
+            $grid->disableDeleteButton();
+            // 禁用详情按钮
+            $grid->disableViewButton();
             $grid->disableDeleteButton();
             $grid->filter(function (Grid\Filter $filter) {
 //                $filter->equal('id');

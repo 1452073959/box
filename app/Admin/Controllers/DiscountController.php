@@ -23,7 +23,13 @@ class DiscountController extends AdminController
             $grid->column('description');
             $grid->column('num');
             $grid->column('price');
-
+            //关闭新增按钮
+            $grid->disableCreateButton();
+            $grid->disableDeleteButton();
+            // 禁用详情按钮
+            $grid->disableViewButton();
+            // 禁用过滤器按钮
+            $grid->disableFilterButton();
             $grid->filter(function (Grid\Filter $filter) {
                 $filter->equal('id');
         
@@ -60,6 +66,12 @@ class DiscountController extends AdminController
             $form->text('description');
             $form->text('num');
             $form->text('price');
+            $form->disableResetButton();
+            $form->disableViewCheck();
+            $form->disableEditingCheck();
+            $form->disableCreatingCheck();
+            // 去除整个工具栏内容
+            $form->disableHeader();
         });
     }
 }

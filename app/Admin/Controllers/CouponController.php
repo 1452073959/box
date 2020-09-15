@@ -22,7 +22,14 @@ class CouponController extends AdminController
             $grid->column('name');
             $grid->column('money');
             $grid->column('min_amount');
-        
+            $grid->column('num');
+            //关闭新增按钮
+//            $grid->disableCreateButton();
+            $grid->disableDeleteButton();
+            // 禁用详情按钮
+            $grid->disableViewButton();
+            // 禁用过滤器按钮
+            $grid->disableFilterButton();
             $grid->filter(function (Grid\Filter $filter) {
                 $filter->equal('id');
         
@@ -59,6 +66,13 @@ class CouponController extends AdminController
             $form->text('name');
             $form->text('money');
             $form->text('min_amount');
+            $form->number('num');
+            $form->disableResetButton();
+            $form->disableViewCheck();
+            $form->disableEditingCheck();
+            $form->disableCreatingCheck();
+            // 去除整个工具栏内容
+            $form->disableHeader();
         });
     }
 }

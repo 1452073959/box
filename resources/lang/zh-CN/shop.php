@@ -1,7 +1,7 @@
 <?php 
 return [
     'labels' => [
-        'Shop' => 'Shop',
+        'Shop' => '会员商城',
     ],
     'fields' => [
         'titile' => '商品名称',

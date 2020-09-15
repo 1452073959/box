@@ -12,7 +12,7 @@ Route::group([
     'middleware'    => config('admin.route.middleware'),
 ], function (Router $router) {
 
-    $router->get('/', 'HomeController@index');
+    $router->resource('/', 'ProductController');
     //分类管理
     $router->resource('cate', 'CategoryController');
     //商品管理
@@ -21,9 +21,7 @@ Route::group([
     $router->resource('ticket', 'DiscountController');
     $router->resource('user', 'UserController');
     //商城
-
     $router->resource('shop', 'ShopController');
-
     //任务
     $router->resource('task', 'TaskController');
     //优惠券

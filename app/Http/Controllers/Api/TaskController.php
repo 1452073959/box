@@ -6,13 +6,15 @@ use App\Http\Controllers\Api\Controller;
 use Illuminate\Http\Request;
 use DB;
 use App\Models\Order;
-
+use App\Models\User;
 class TaskController extends Controller
 {
     //
 
     public function list()
     {
+
+
         $user = auth('api')->user();
         $time=date('Y-m-d',time());
         $num=Order::whereDate('created_at',$time)->where('type',1)->where('status','>=',2)->count();

@@ -21,8 +21,14 @@ class TaskController extends AdminController
             $grid->column('id')->sortable();
             $grid->column('title');
             $grid->column('award');
-            $grid->column('type');
-        
+            $grid->column('num');
+            //关闭新增按钮
+//            $grid->disableCreateButton();
+            $grid->disableDeleteButton();
+            // 禁用详情按钮
+            $grid->disableViewButton();
+            // 禁用过滤器按钮
+            $grid->disableFilterButton();
             $grid->filter(function (Grid\Filter $filter) {
                 $filter->equal('id');
         
@@ -58,7 +64,13 @@ class TaskController extends AdminController
             $form->display('id');
             $form->text('title');
             $form->text('award');
-            $form->text('integral');
+            $form->text('num');
+            $form->disableResetButton();
+            $form->disableViewCheck();
+            $form->disableEditingCheck();
+            $form->disableCreatingCheck();
+            // 去除整个工具栏内容
+            $form->disableHeader();
         });
     }
 }

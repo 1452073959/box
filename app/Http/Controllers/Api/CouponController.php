@@ -20,7 +20,7 @@ class CouponController extends Controller
             $user->coupon()->attach($counpon_id, ['not_before' => time(), 'not_after' => strtotime("+1 week")]);
             return $this->success('领取成功');
         }else{
-            return $this->failed('错误');
+            return $this->success('错误');
         }
     }
 
@@ -60,10 +60,10 @@ class CouponController extends Controller
         $coupon = $user->usercoupon()->with('coupon')->where('id', $id)->first();
 
         if ($coupon['not_before'] && $coupon['not_before'] >time()) {
-            return $this->failed('该优惠券现在还不能使用');
+            return $this->success('该优惠券现在还不能使用');
         }
         if ($coupon['not_after'] && $coupon['not_after'] < time()) {
-            return $this->failed('该优惠券已过期');
+            return $this->success('该优惠券已过期');
         }
         $user->usercoupon()->with('coupon')->where('id', $id)->update(['status' => 3]);
         return $this->success('使用成功');
