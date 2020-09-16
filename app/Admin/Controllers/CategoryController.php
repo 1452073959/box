@@ -71,7 +71,7 @@ class CategoryController extends AdminController
     {
         return Form::make(new Category(), function (Form $form) {
             $form->text('text');
-            $form->image('image','分类图片')->uniqueName()->required();
+//            $form->image('image','分类图片')->uniqueName()->required();
             $form->disableResetButton();
             $form->disableViewCheck();
             $form->disableEditingCheck();

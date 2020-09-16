@@ -36,7 +36,7 @@ class ProductController extends Controller
     public function admincate(Request $request)
     {
         $data= Category::where('parent_id',0)->get();
-        return $data;
+        return $this->success($data);
     }
 
 
