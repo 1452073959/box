@@ -70,6 +70,8 @@ $api->version('v1', [
     $api->get('token', 'WechatController@tokenupdate');
     //分类的接口
     $api->get('cate', 'ProductController@cate');
+//    前台
+    $api->get('homecate', 'ProductController@admincate');
 
 //    商品支付通知
     $api->any('notify', 'OrderController@notify');

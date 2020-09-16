@@ -101,7 +101,7 @@ class ProductController extends Controller
             return $this->failed('该商品已下架');
         }
         $num=2;
-        // 如果用户提交了优惠码
+        // 如果用户提交了
         if ($coupon = $request->input('coupon')) {
 
             $cartItems = $user->userDiscount()->with(['discount'])->where('discount_id',$coupon)->first();
@@ -188,39 +188,7 @@ class ProductController extends Controller
         $builder = Shop::query()->where('status', 1)->where('recommended',1)->get();
         return $this->success($builder);
     }
-    //商品
-    public function multiproduct(Request $request)
-    {
-        $items = $request->input('items');
-        $product=[];
-        foreach ($items as $k => $v) {
-            $sku = Product::find($v['id']);
-            $sku['totalAmount']=$sku['price'] * $v['amount'];
-            $product[]=$sku;
-        }
-        return $this->success($product);
-    }
 
-    //浏览历史
-    public function history()
-    {
-        $user = auth('api')->user();
-        $history= Redis::lrange($user['id'],0,-1);
-        $history=Product::wherein('id',$history)->paginate(16);
-        return $this->success($history);
-    }
-    //
-    public function searchhistory()
-    {
-        $user = auth('api')->user();
-        $history= Redis::lrange($user['weapp_openid'],0,2);
-        return $this->success($history);
-    }
 
-    public function del()
-    {
-        $user = auth('api')->user();
-        Redis::del($user['weapp_openid']);
-    }
 
 }
