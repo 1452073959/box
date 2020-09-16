@@ -87,6 +87,7 @@ class ProductController extends AdminController
             $form->select('cid','所属分类')->options(config('app.url').'/api/cate')->required();
             $form->text('title')->required();
             $form->text('series')->required();
+            $form->editor('description')->required();
             $form->multipleImage('image')->saving(function ($paths) {
                 // 可以转化为由 , 隔开的字符串格式
                 // return implode(',', $paths);
