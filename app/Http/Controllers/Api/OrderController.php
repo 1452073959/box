@@ -13,6 +13,7 @@ use App\Models\Product;
 use Illuminate\Support\Facades\Cache;
 use App\Models\UserDiscount;
 use App\Models\User;
+use App\Models\Sign;
 class OrderController extends Controller
 {
     //
@@ -97,6 +98,10 @@ class OrderController extends Controller
 
                 // config('wechat.payment.default.key')为商户的key
                 $params['paySign'] = generate_sign($params, config('wechat.payment.default.key'));
+                $sign=new  Sign();
+                $sign->order_id=$order['id'];
+                $sign->sign=json_encode($params);
+                $sign->save();
                 return $this->success(['params'=>$params]);
             } else {
                 return $result;
@@ -158,7 +163,7 @@ class OrderController extends Controller
     //订单详情
     public function show(Order $order, Request $request)
     {
-        $show=  $order->load(['items.productSku', 'items.product','shop']);
+        $show=  $order->load(['items.productSku', 'items.product','shop','sign']);
         return $this->success($show);
     }
     //使用后悔卡

@@ -78,4 +78,9 @@ class Order extends Model
     {
         $this->attributes['address'] = json_encode($value);
     }
+    //
+    public function sign()
+    {
+        return $this->hasOne(Sign::class,'order_id','id');
+    }
 }

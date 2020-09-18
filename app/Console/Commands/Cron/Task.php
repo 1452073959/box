@@ -43,11 +43,7 @@ class Task extends Command
     public function handle()
     {
         //
-
-
             DB::table('users')->update(['todaynumber'=>0]);
-             DB::table('user_task')->update(['status'=>1]);
-
-
+            DB::table('user_task')->update(['status'=>1]);
     }
 }
