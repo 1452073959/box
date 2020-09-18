@@ -96,6 +96,7 @@ class ProductController extends AdminController
             })->uniqueName();
             $form->image('cover')->uniqueName()->required();
             $form->image('img')->uniqueName()->required();
+            $form->image('verticalimage','竖图')->uniqueName()->required();
             $form->text('price')->required();
             $form->number('number')->required();
 
