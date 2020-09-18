@@ -80,7 +80,7 @@ class ShopController extends AdminController
             $form->text('titile')->required();
             $form->text('series')->required();
             $form->image('image')->required();
-            $form->image('img')->required();
+            $form->image('img','横图')->required();
             $form->editor('description')->required();
             $form->text('price')->required();
             $form->radio('recommended')->options(['1' => '是', '2'=> '否'])->default('1')->required();
