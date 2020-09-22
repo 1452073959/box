@@ -60,6 +60,8 @@ $api->version('v1', [
         Route::get('orders/{order}', 'Api\OrderController@show');
         //用户充值下单
         Route::any('recharge', 'Api\OrderController@recharge');
+        //小程序码
+        Route::get('ma','Api\WechatController@ma');
     });
 
     // 登录
