@@ -75,11 +75,13 @@ class WechatController extends Controller
     public function ma(Request $request)
     {
         $app = \EasyWeChat::miniProgram();
-        $user = auth('api')->user();
-        $user = auth('api')->user();
-        $str=$user['id'];
+//        $user = auth('api')->user();
+//        $str=$user['id'];
+//        dump($str);
+
         if ($request->has('product_id')) {
-            $pid=$request->input('product_id');
+            $str=$request->input('product_id');
+//            dump($pid);
             $response =  $app->app_code->getUnlimit($str);
             // 保存小程序码到文件
             if ($response instanceof \EasyWeChat\Kernel\Http\StreamResponse) {
