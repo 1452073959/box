@@ -76,9 +76,11 @@ class WechatController extends Controller
     {
         $app = \EasyWeChat::miniProgram();
         $user = auth('api')->user();
+        $user = auth('api')->user();
+        $str=$user['id'];
         if ($request->has('product_id')) {
             $pid=$request->input('product_id');
-            $response =  $app->app_code->getUnlimit($pid);
+            $response =  $app->app_code->getUnlimit($str);
             // 保存小程序码到文件
             if ($response instanceof \EasyWeChat\Kernel\Http\StreamResponse) {
                 $filename = $response->save(public_path('uploads'));
