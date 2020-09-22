@@ -87,7 +87,8 @@ class WechatController extends Controller
             if ($response instanceof \EasyWeChat\Kernel\Http\StreamResponse) {
                 $filename = $response->save(public_path('uploads'));
 //            dump($filename);
-                return Storage::disk('admin')->url($filename);
+                $a=   Storage::disk('admin')->url($filename);
+               return $this->success($a);
             }
 //        return Storage::disk('admin')->url($filename);
 
