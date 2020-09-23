@@ -12,7 +12,7 @@ Route::group([
     'middleware'    => config('admin.route.middleware'),
 ], function (Router $router) {
 
-    $router->resource('/', 'ProductController');
+    $router->get('/', 'HomeController@index');
     //分类管理
     $router->resource('cate', 'CategoryController');
     //商品管理

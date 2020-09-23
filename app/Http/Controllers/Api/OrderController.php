@@ -29,19 +29,19 @@ class OrderController extends Controller
                 $order = new Order();
                 $order->user_id = $user['id'];
                 $order->total_amount = $data['total_amount'];
-                $order->address = Request($data['address'],'');
+                $order->address = Request($request->input('address'),'');
                 $order->type = $data['type'];
                 $order->shop_id = $data['shop_id'];
-                $order->selfgain_id =Request($data['selfgain_id'],0);
+                $order->selfgain_id =Request($request->input('selfgain_id'),0);
                 $order->save();
             }else{
                 $data = $request->all();
                 $order = new Order();
                 $order->user_id = $user['id'];
                 $order->total_amount = $data['total_amount'];
-                $order->address = Request($data['address'],'');
+                $order->address = Request($request->input('address'),'');
                 $order->type = $data['type'];
-                $order->selfgain_id =Request( $data['selfgain_id'],0);
+                $order->selfgain_id =Request( $request->input('selfgain_id'),0);
                 $order->save();
 
                 $totalAmount = 0;
