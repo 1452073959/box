@@ -20,23 +20,26 @@ class OrderController extends AdminController
     {
         return Grid::make(new Order(), function (Grid $grid) {
 
-            $grid->model()->whereIn('status',[ 2, 3])->orderBy('created_at', 'desc');
+            $grid->model()->orderBy('created_at', 'desc');
 //            $grid->id->sortable();
             $grid->no;
             $grid->model()->with(['user']);
-            $grid->column('user.nickname','用户');
+            $grid->column('user.nickname', '用户');
 //            $grid->user_id;
 //            $grid->address;
             $grid->total_amount;
 //            $grid->remark;
             $grid->paid_at;
 //            $grid->payment_no;
-            $grid->status->using([1 => '未支付', 2 => '未发货',3=>'已发货'])->filter(
+            $grid->status->using([1 => '未支付', 2 => '未发货', 3 => '已发货', 5 => '请立即发货',
+                4 => '已取消',])->filter(
                 Grid\Column\Filter\In::make([
                     0 => '未知',
                     1 => '未支付',
                     2 => '未发货',
                     3 => '已发货',
+                    5 => '请立即发货',
+                    4 => '已取消',
                 ])
             );
 //            $grid->ship_data;
@@ -49,6 +52,7 @@ class OrderController extends AdminController
 
 //                $filter->equal('id');
                 $filter->like('no', '商户订单号');
+//                $filter->equal('column', $label);
                 $filter->like('user.nickname', '用户');
 
             });
@@ -69,7 +73,7 @@ class OrderController extends AdminController
      * @return Show
      */
 
-    public  function show($id ,Content $content)
+    public function show($id, Content $content)
     {
 //        dump( \App\Models\Order::find($id)->toarray());
         return $content->header('订单')

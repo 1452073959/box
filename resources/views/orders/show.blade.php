@@ -67,6 +67,11 @@
             <!-- 订单发货开始 -->
             <!-- 如果订单未发货，展示发货表单 -->
             @if($order->status == 2)
+
+                <tr>
+                    <td>自提点：</td>
+                    <td>{{ $order->selfgain->name }}</td>
+                </tr>
                 <tr>
                     <td colspan="4">
                         <form  class="form-inline" id="myform">
@@ -98,6 +103,8 @@
                 </tr>
             @endif
             <!-- 订单发货结束 -->
+
+
 
             </tbody>
         </table>
