@@ -18,8 +18,8 @@ class Setting extends Form
     {
 
         $data=Settings::first();
-        $data->minmoney=$input['minmoney'];
-        $data->rate=$input['rate'];
+        $data->freight=$input['freight'];
+        $data->maxmoney=$input['maxmoney'];
         $data->save();
         // return $this->error('Your error message.');
 
@@ -31,8 +31,9 @@ class Setting extends Form
      */
     public function form()
     {
-        $this->text('minmoney','最小佣金交易金额')->required();
-        $this->rate('rate','分成比率')->required();
+        $this->text('freight','运费金额')->required();
+        $this->text('maxmoney','免运费金额')->required();
+//        $this->rate('rate','分成比率')->required();
     }
 
     /**
@@ -46,8 +47,8 @@ class Setting extends Form
         $data=Settings::first();
 //        dump($data);
         return [
-            'minmoney'  => $data['minmoney'],
-            'rate' => $data['rate'],
+            'freight'  => $data['freight'],
+            'maxmoney' => $data['maxmoney'],
         ];
     }
 }
