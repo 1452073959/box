@@ -83,4 +83,9 @@ class Order extends Model
     {
         return $this->hasOne(Sign::class,'order_id','id');
     }
+    //自提点设置
+    public function selfgain()
+    {
+        return $this->belongsTo(Selfgain::class,'selfgain_id','id');
+    }
 }

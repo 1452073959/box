@@ -23,23 +23,24 @@ class OrderController extends Controller
         $user = auth('api')->user();
 //        dd($user);
         $order = DB::transaction(function () use ($user, $request) {
-
             if($request->input('type')==2){
                 $data = $request->all();
                 $order = new Order();
                 $order->user_id = $user['id'];
                 $order->total_amount = $data['total_amount'];
-                $order->address = $data['address'];
+                $order->address = Request($data['address'],'');
                 $order->type = $data['type'];
                 $order->shop_id = $data['shop_id'];
+                $order->selfgain_id =Request($data['selfgain_id'],0);
                 $order->save();
             }else{
                 $data = $request->all();
                 $order = new Order();
                 $order->user_id = $user['id'];
                 $order->total_amount = $data['total_amount'];
-                $order->address = $data['address'];
+                $order->address = Request($data['address'],'');
                 $order->type = $data['type'];
+                $order->selfgain_id =Request( $data['selfgain_id'],0);
                 $order->save();
 
                 $totalAmount = 0;
@@ -153,7 +154,7 @@ class OrderController extends Controller
         }
         $orders = Order::query()
             // 使用 with 方法预加载，避免N + 1问题
-            ->with(['items.product', 'items.productSku','shop'])
+            ->with(['items.product', 'items.productSku','shop','selfgain'])
             ->where('user_id', $user['id'])
             ->where($where)
             ->orderBy('created_at', 'desc')
@@ -164,7 +165,7 @@ class OrderController extends Controller
     //订单详情
     public function show(Order $order, Request $request)
     {
-        $show=  $order->load(['items.productSku', 'items.product','shop','sign']);
+        $show=  $order->load(['items.productSku', 'items.product','shop','sign','selfgain']);
         return $this->success($show);
     }
     //使用后悔卡
@@ -289,12 +290,14 @@ class OrderController extends Controller
         return $this->success('发货成功');
     }
 
-    //自提点设置
+    //自提点列表
     public function selfgain()
     {
         $data=Selfgain::get();
         return $this->success($data);
     }
+
+
 
     //测试方法
     public function cache(Request $request)
