@@ -12,6 +12,7 @@ use App\Models\User;
 use Storage;
 use Illuminate\Support\Str;
 use App\Models\Swipe;
+use App\Models\Settings;
 class WechatController extends Controller
 {
     //登陆
@@ -111,7 +112,11 @@ class WechatController extends Controller
     }
 
     //设置
-    
+    public function setting()
+    {
+        $data=Settings::first();
+        return  $this->success($data);
+    }
 
 
 
