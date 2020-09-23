@@ -56,6 +56,7 @@ class SelfgainController extends AdminController
             $form->display('id');
             $form->text('name');
             $form->text('tel');
+            $form->text('addr');
         });
     }
 }
