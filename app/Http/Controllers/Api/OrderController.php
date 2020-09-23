@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Cache;
 use App\Models\UserDiscount;
 use App\Models\User;
 use App\Models\Sign;
+use App\Jobs\CloseOrder;
 class OrderController extends Controller
 {
     //
@@ -58,7 +59,7 @@ class OrderController extends Controller
                     $totalAmount += $sku->price * $v['amount'];
                 }
             }
-//            $this->dispatch(new CloseOrder($order, 3600));
+            $this->dispatch(new CloseOrder($order, 3600));
             return $order;
         });
 //        dd($order);
@@ -295,6 +296,13 @@ class OrderController extends Controller
     {
         $data=Selfgain::get();
         return $this->success($data);
+    }
+//    设置订单为立即发货
+    public function nowshipments(Order $order, Request $request)
+    {
+        $show=  $order->status=5;
+        $order->save();
+        return $this->success($show);
     }
 
 

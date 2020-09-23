@@ -58,6 +58,8 @@ $api->version('v1', [
         Route::get('orderlist', 'Api\OrderController@index');
         //订单详情
         Route::get('orders/{order}', 'Api\OrderController@show');
+        //订单立即发货
+        Route::get('nowshipments/{order}', 'Api\OrderController@nowshipments');
         //用户充值下单
         Route::any('recharge', 'Api\OrderController@recharge');
         //小程序码
@@ -92,6 +94,9 @@ $api->version('v1', [
     Route::get('cardlist', 'Api\Discountuser@kabiao');
     //订单发货
     $api->post('shipments', 'OrderController@shipments');
+
+
+
     //自提点列表
     $api->get('selfgain', 'OrderController@selfgain');
     //测试路由
