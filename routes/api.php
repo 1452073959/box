@@ -74,11 +74,9 @@ $api->version('v1', [
     $api->get('cate', 'ProductController@cate');
 //    前台
     $api->get('homecate', 'ProductController@admincate');
-
 //    商品支付通知
     $api->any('notify', 'OrderController@notify');
     $api->any('recharge/notify', 'OrderController@rechagenotify');
-
     //商品列表
     $api->get('product', 'ProductController@index');
     //抽盒推荐
@@ -88,13 +86,14 @@ $api->version('v1', [
     Route::get('shop/{shop}', 'Api\ProductController@shopshow');
     //首页banner
     $api->get('swipe', 'WechatController@image');
-
     //商城推荐
     $api->get('shopstick', 'ProductController@shopstick');
     //卡列表
     Route::get('cardlist', 'Api\Discountuser@kabiao');
     //订单发货
     $api->post('shipments', 'OrderController@shipments');
+    //自提点列表
+    $api->get('selfgain', 'OrderController@selfgain');
     //测试路由
     $api->any('cache', 'OrderController@cache');
 

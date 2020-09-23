@@ -32,4 +32,6 @@ Route::group([
     $router->resource('swipe', 'SwipeController');
     //订单管理
     $router->resource('order', 'OrderController');
+    //自提点设置
+    $router->resource('ziti', 'SelfgainController');
 });

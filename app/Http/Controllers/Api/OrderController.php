@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Api\Controller;
 use App\Models\Recharge;
+use App\Models\Selfgain;
 use Illuminate\Http\Request;
 use function EasyWeChat\Kernel\Support\generate_sign;
 use Illuminate\Support\Facades\DB;
@@ -286,6 +287,13 @@ class OrderController extends Controller
         ]);
 
         return $this->success('发货成功');
+    }
+
+    //自提点设置
+    public function selfgain()
+    {
+        $data=Selfgain::get();
+        return $this->success($data);
     }
 
     //测试方法
