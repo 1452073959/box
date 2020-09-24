@@ -99,6 +99,10 @@ $api->version('v1', [
     $api->post('shipments', 'OrderController@shipments');
     //设置
     Route::get('setting','Api\WechatController@setting');
+
+    //弹幕
+    Route::get('bulletscreen','Api\OrderController@bulletscreen');
+
 //    Route::get('setting', 'Api\WechatController@setting');
 
     //自提点列表

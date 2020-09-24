@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Api\Controller;
+use App\Models\Bulletscreen;
 use App\Models\Recharge;
 use App\Models\Selfgain;
 use Illuminate\Http\Request;
@@ -65,9 +66,19 @@ class OrderController extends Controller
                     $item->productSku()->associate($sku);
                     $item->save();
                     $totalAmount += $sku->price * $v['amount'];
+
+                    $butt=new Bulletscreen();
+                    $butt->img=$user['weapp_avatar'];
+                    $butt->action='抽中了';
+                    $butt->text=$sku['title'];
+                    $butt->save();
                 }
+
             }
             $this->dispatch(new CloseOrder($order, 3600));
+
+
+
             return $order;
         });
 //        dd($order);
@@ -313,7 +324,11 @@ class OrderController extends Controller
         return $this->success($order);
     }
 
-
+    public function bulletscreen()
+    {
+        $data=Bulletscreen::take(20)->get();
+        return $this->success($data);
+    }
 
     //测试方法
     public function cache(Request $request)

@@ -22,10 +22,15 @@
                 <td>支付渠道单号：</td>
                 <td>{{ $order->payment_no }}</td>
             </tr>
+
+            @if(!empty($order['address']))
+
             <tr>
                 <td>收货地址</td>
                 <td colspan="3">{{ $order->address['address'] }} {{ $order->address['contact_name'] }} {{ $order->address['contact_phone'] }}</td>
             </tr>
+
+            @endif
             @if($order->type==2)
                 <tr>
                     <td rowspan="{{ $order->items->count() + 1 }}">订单类型</td>
@@ -67,11 +72,12 @@
             <!-- 订单发货开始 -->
             <!-- 如果订单未发货，展示发货表单 -->
             @if($order->status == 2)
-
+                @if(!empty($order['selfgain']))
                 <tr>
                     <td>自提点：</td>
                     <td>{{ $order->selfgain->name }}</td>
                 </tr>
+                @endif
                 <tr>
                     <td colspan="4">
                         <form  class="form-inline" id="myform">
