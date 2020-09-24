@@ -39,6 +39,18 @@ class ProductController extends Controller
         return $this->success($data);
     }
 
+    public function homeproduct()
+    {
+         $data=Product::all();
+         foreach($data as $k=>$v)
+         {
+             $data[$k]['text']=$v['title'];
+         }
+
+        return $data;
+    }
+
+
 
     //商品列表
     public function index(Request $request)

@@ -19,15 +19,10 @@ class SwipeController extends AdminController
     {
         return Grid::make(new Swipe(), function (Grid $grid) {
 //            $grid->id->sortable();
-            $grid->img->display(function ($pictures) {
+            $grid->img->image();
 
-                return json_decode($pictures, true);
-
-            })->image(config('app.url'). 'uploads/', 100, 100);
-            $grid->filter(function (Grid\Filter $filter) {
-                $filter->equal('id');
-        
-            });
+            $grid->model()->with(['product']);
+            $grid->column('product.title','商品');
             // 禁用详情按钮
             $grid->disableViewButton();
             // 禁用
@@ -35,7 +30,7 @@ class SwipeController extends AdminController
             $grid->disableFilterButton();
             $grid->disableBatchActions();
             //关闭新增按钮
-            $grid->disableCreateButton();
+//            $grid->disableCreateButton();
             $grid->disableDeleteButton();
         });
     }
@@ -64,14 +59,16 @@ class SwipeController extends AdminController
     {
         return Form::make(new Swipe(), function (Form $form) {
             $form->display('id');
-//            $form->image('img');
+            $form->image('img')->uniqueName();
+            $form->select('product_id','抽盒商品')->options(config('app.url').'api/homeproduct')->required();
+//            $form->text('product_id')->required()->help('输入抽盒商品的id');
             // 限制最大上传数量
-            $form->multipleImage('img','图片')->uniqueName()->saving(function ($paths) {
-                // 可以转化为由 , 隔开的字符串格式
-                // return implode(',', $paths);
-                // 也可以转化为json
-                return json_encode($paths);
-            });
+//            $form->multipleImage('img','图片')->uniqueName()->saving(function ($paths) {
+//                // 可以转化为由 , 隔开的字符串格式
+//                // return implode(',', $paths);
+//                // 也可以转化为json
+//                return json_encode($paths);
+//            });
             $form->disableResetButton();
             $form->disableViewCheck();
             $form->disableEditingCheck();
