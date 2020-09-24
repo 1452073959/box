@@ -31,8 +31,7 @@ $api->version('v1', [
         Route::get('deladdresses/{user_address}', 'Api\AddressesController@destroy');
         //设置默认收货地址
         Route::get('defaultaddresses/{user_address}', 'Api\AddressesController@default');
-        //商品详情
-        Route::get('productshow/{product}', 'Api\ProductController@show');
+
         //摇一摇
         Route::get('teeter/{product}', 'Api\ProductController@teeter');
         //任务列表
@@ -66,6 +65,8 @@ $api->version('v1', [
         Route::get('ma','Api\WechatController@ma');
     });
 
+    //商品详情
+    Route::get('productshow/{product}', 'Api\ProductController@show');
     // 登录
     $api->post('logincode', 'WechatController@wechat');
     //用户信息

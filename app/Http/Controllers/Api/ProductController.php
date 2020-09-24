@@ -88,8 +88,10 @@ class ProductController extends Controller
     {
         // 判断商品是否已经上架，如果没有上架则抛出异常。
         $user = auth('api')->user();
-        //清除该摇一摇缓存
-        Redis::del($user['id'].'+'.$product['id']);//true
+        if($user){
+            //清除该摇一摇缓存
+            Redis::del($user['id'].'+'.$product['id']);//true
+        }
         if ($product->status==2) {
             return $this->failed('该商品已下架');
         }
