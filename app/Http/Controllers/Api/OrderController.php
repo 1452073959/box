@@ -31,12 +31,12 @@ class OrderController extends Controller
                 $order->user_id = $user['id'];
                 $order->total_amount = $data['total_amount'];
                 if ($request->has('address')) {
-                    $order->address = Request($request->input('address'),null);
+                    $order->address =$request->input('address',null);
                 }
                 $order->type = $data['type'];
                 $order->shop_id = $data['shop_id'];
                 if ($request->has('selfgain_id')) {
-                    $order->selfgain_id =Request($request->input('selfgain_id'),0);
+                    $order->selfgain_id =$request->input('selfgain_id',0);
                 }
                 $order->save();
             }else{
@@ -45,11 +45,11 @@ class OrderController extends Controller
                 $order->user_id = $user['id'];
                 $order->total_amount = $data['total_amount'];
                 if ($request->has('address')) {
-                    $order->address = Request($request->input('address'),null);
+                    $order->address =$request->input('address',null);
                 }
                 $order->type = $data['type'];
                 if ($request->has('selfgain_id')) {
-                    $order->selfgain_id =Request($request->input('selfgain_id'),0);
+                    $order->selfgain_id =$request->input('selfgain_id',0);
                 }
                 $order->save();
 
