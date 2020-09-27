@@ -80,7 +80,13 @@ class ShopController extends AdminController
             $form->text('titile')->required();
             $form->text('series')->required();
             $form->image('image')->required();
-            $form->image('img','横图')->required();
+//            $form->image('img','横图')->required();
+            $form->multipleImage('img','横图')->saving(function ($paths) {
+                // 可以转化为由 , 隔开的字符串格式
+                // return implode(',', $paths);
+                // 也可以转化为json
+                return json_encode($paths);
+            })->uniqueName()->required();;
             $form->editor('description')->required();
             $form->text('price')->required();
             $form->radio('recommended')->options(['1' => '是', '2'=> '否'])->default('1')->required();

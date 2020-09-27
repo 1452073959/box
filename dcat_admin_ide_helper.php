@@ -88,6 +88,7 @@ namespace Dcat\Admin {
      * @property Grid\Column|Collection freight
      * @property Grid\Column|Collection maxmoney
      * @property Grid\Column|Collection sign
+     * @property Grid\Column|Collection url
      * @property Grid\Column|Collection award
      * @property Grid\Column|Collection integral
      * @property Grid\Column|Collection province
@@ -184,6 +185,7 @@ namespace Dcat\Admin {
      * @method Grid\Column|Collection freight(string $label = null)
      * @method Grid\Column|Collection maxmoney(string $label = null)
      * @method Grid\Column|Collection sign(string $label = null)
+     * @method Grid\Column|Collection url(string $label = null)
      * @method Grid\Column|Collection award(string $label = null)
      * @method Grid\Column|Collection integral(string $label = null)
      * @method Grid\Column|Collection province(string $label = null)
@@ -285,6 +287,7 @@ namespace Dcat\Admin {
      * @property Show\Field|Collection freight
      * @property Show\Field|Collection maxmoney
      * @property Show\Field|Collection sign
+     * @property Show\Field|Collection url
      * @property Show\Field|Collection award
      * @property Show\Field|Collection integral
      * @property Show\Field|Collection province
@@ -381,6 +384,7 @@ namespace Dcat\Admin {
      * @method Show\Field|Collection freight(string $label = null)
      * @method Show\Field|Collection maxmoney(string $label = null)
      * @method Show\Field|Collection sign(string $label = null)
+     * @method Show\Field|Collection url(string $label = null)
      * @method Show\Field|Collection award(string $label = null)
      * @method Show\Field|Collection integral(string $label = null)
      * @method Show\Field|Collection province(string $label = null)
