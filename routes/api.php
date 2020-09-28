@@ -91,6 +91,7 @@ $api->version('v1', [
     Route::get('shop/{shop}', 'Api\ProductController@shopshow');
     //首页banner
     $api->get('swipe', 'WechatController@image');
+    $api->get('swipewto', 'WechatController@image2');
     //商城推荐
     $api->get('shopstick', 'ProductController@shopstick');
     //卡列表

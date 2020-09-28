@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 
+use App\Models\Swipetwo;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Api\Controller;
 use EasyWeChat\Factory;
@@ -108,6 +109,12 @@ class WechatController extends Controller
     public function image()
     {
         $data=Swipe::all();
+        return $this->success($data);
+    }
+
+    public function image2()
+    {
+        $data=Swipetwo::all();
         return $this->success($data);
     }
 
