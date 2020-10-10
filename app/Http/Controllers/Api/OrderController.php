@@ -319,9 +319,18 @@ class OrderController extends Controller
 //    设置订单为立即发货
     public function nowshipments(Order $order, Request $request)
     {
-        $show=  $order->status=5;
+        $order->status=5;
         $order->save();
         return $this->success($order);
+    }
+    //订单备注
+    public function remark(Request $request)
+    {
+        $data = $request->all();
+        DB::table('order')->where('id', $data['id'])->update([
+            'remark' => $data['remark'],
+        ]);
+        return $this->success('修改成功');
     }
 
     public function bulletscreen()

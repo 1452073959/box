@@ -94,6 +94,18 @@
                         </form>
                     </td>
                 </tr>
+                <tr>
+                    <td colspan="4">
+                        <form  class="form-inline" id="myform1">
+                            <input type="hidden" name="id" value="{{$order->id}}">
+                            <div class="form-group">
+                                <label for="express_company" class="control-label">订单备注</label>
+                                <input type="text" id="express_company" name="remark" value="" class="form-control" placeholder="订单备注(为空则不显示)" size="55">
+                            </div>
+                            <button type="button" class="btn btn-success" id="remake">确定</button>
+                        </form>
+                    </td>
+                </tr>
             @else
                 <!-- 否则展示物流公司和物流单号 -->
                 <tr>
@@ -125,6 +137,18 @@
             type:"post",
             url:"/api/shipments",
             data:$("#myform").serialize(),//这里data传递过去的是序列化以后的字符串
+            success:function(data){
+                layer.msg(data.data);
+                window.location.reload();
+            }
+        });
+    });
+
+    $("#remake").click(function () {
+        $.ajax({
+            type:"post",
+            url:"/api/remark",
+            data:$("#myform1").serialize(),//这里data传递过去的是序列化以后的字符串
             success:function(data){
                 layer.msg(data.data);
                 window.location.reload();

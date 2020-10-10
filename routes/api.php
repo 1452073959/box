@@ -98,6 +98,8 @@ $api->version('v1', [
 
     //订单发货
     $api->post('shipments', 'OrderController@shipments');
+    //订单备注
+    $api->post('remark', 'OrderController@remark');
     //设置
     Route::get('setting','Api\WechatController@setting');
 
