@@ -13,6 +13,7 @@ use Storage;
 use Illuminate\Support\Str;
 use App\Models\Swipe;
 use App\Models\Settings;
+use App\Models\Swipetwo;
 class WechatController extends Controller
 {
     //登陆
@@ -110,6 +111,12 @@ class WechatController extends Controller
         $data=Swipe::all();
         return $this->success($data);
     }
+    
+    public function image2()
+    {
+        $data=Swipetwo::all();
+        return $this->success($data);
+    }    
 
     //设置
     public function setting()

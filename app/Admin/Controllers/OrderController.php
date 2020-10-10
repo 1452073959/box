@@ -47,7 +47,16 @@ class OrderController extends AdminController
 //            $grid->updated_at->sortable();
             // 显示
             $grid->showFilter();
-
+            $grid->selector(function (Grid\Tools\Selector $selector) {
+                $selector->selectOne('status', '订单状态', [
+                    0 => '未知',
+                    1 => '未支付',
+                    2 => '未发货',
+                    3 => '已发货',
+                    5 => '请立即发货',
+                    4 => '已取消',
+                ]);
+            });
             $grid->filter(function (Grid\Filter $filter) {
 
 //                $filter->equal('id');

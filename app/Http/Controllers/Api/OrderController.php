@@ -326,7 +326,7 @@ class OrderController extends Controller
 
     public function bulletscreen()
     {
-        $data=Bulletscreen::take(20)->get();
+        $data=Bulletscreen::orderby('id','desc')->take(30)->get();
         return $this->success($data);
     }
 

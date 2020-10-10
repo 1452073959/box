@@ -17,7 +17,7 @@ class TaskController extends Controller
 
         $user = auth('api')->user();
         $time=date('Y-m-d',time());
-        $num=Order::whereDate('created_at',$time)->where('type',1)->where('status','>=',2)->count();
+        $num=Order::whereDate('created_at',$time)->where('type',1)->wherein('status',['2','3'])->where('user_id',$user['id'])->count();
         $user->todaynumber=$num;
         $user->save();
         $task= $user->task()->get();

@@ -20,6 +20,8 @@ class Setting extends Form
         $data=Settings::first();
         $data->freight=$input['freight'];
         $data->maxmoney=$input['maxmoney'];
+        $data->img=$input['img'];
+        $data->text=$input['text'];
         $data->save();
         // return $this->error('Your error message.');
 
@@ -33,6 +35,8 @@ class Setting extends Form
     {
         $this->text('freight','运费金额')->required();
         $this->text('maxmoney','免运费金额')->required();
+        $this->image('img','分享图片')->required();
+        $this->text('text','分享文字')->required();
 //        $this->rate('rate','分成比率')->required();
     }
 
@@ -49,6 +53,9 @@ class Setting extends Form
         return [
             'freight'  => $data['freight'],
             'maxmoney' => $data['maxmoney'],
+            'img' => $data['img'],
+            'text' => $data['text'],
+
         ];
     }
 }

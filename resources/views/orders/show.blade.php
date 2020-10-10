@@ -71,7 +71,7 @@
             </tr>
             <!-- 订单发货开始 -->
             <!-- 如果订单未发货，展示发货表单 -->
-            @if($order->status == 2)
+            @if($order->status == 2 ||5)
                 @if(!empty($order['selfgain']))
                 <tr>
                     <td>自提点：</td>

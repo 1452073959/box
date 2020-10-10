@@ -108,15 +108,7 @@ class User extends Authenticatable implements JWTSubject
                 $cart->save();
             }
         });
-        static::updated(function($model) {
-            $discount = Discount::all();
-            foreach ($discount as $k => $v) {
-                $cart = new UserDiscount(['amount' => 0]);
-                $cart->user()->associate($model['id']);
-                $cart->discount()->associate($v['id']);
-                $cart->save();
-            }
-        });
+
     }
     ///用户充值
     ///
