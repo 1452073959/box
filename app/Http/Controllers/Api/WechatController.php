@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 
+use App\Models\Swipetwo;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Api\Controller;
 use EasyWeChat\Factory;
@@ -13,7 +14,6 @@ use Storage;
 use Illuminate\Support\Str;
 use App\Models\Swipe;
 use App\Models\Settings;
-use App\Models\Swipetwo;
 class WechatController extends Controller
 {
     //登陆
@@ -111,12 +111,12 @@ class WechatController extends Controller
         $data=Swipe::all();
         return $this->success($data);
     }
-    
+
     public function image2()
     {
         $data=Swipetwo::all();
         return $this->success($data);
-    }    
+    }
 
     //设置
     public function setting()

@@ -108,7 +108,6 @@ class User extends Authenticatable implements JWTSubject
                 $cart->save();
             }
         });
-
     }
     ///用户充值
     ///

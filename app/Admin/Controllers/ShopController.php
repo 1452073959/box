@@ -80,6 +80,7 @@ class ShopController extends AdminController
             $form->text('titile')->required();
             $form->text('series')->required();
             $form->image('image')->required();
+//            $form->image('img','横图')->required();
             $form->multipleImage('img','横图')->saving(function ($paths) {
                 // 可以转化为由 , 隔开的字符串格式
                 // return implode(',', $paths);

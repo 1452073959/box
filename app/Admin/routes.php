@@ -34,6 +34,6 @@ Route::group([
     $router->resource('order', 'OrderController');
     //自提点设置
     $router->resource('ziti', 'SelfgainController');
-        //
+    //
     $router->resource('swipetwo', 'SwipetwoController');
 });
