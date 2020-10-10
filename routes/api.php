@@ -64,12 +64,7 @@ $api->version('v1', [
         //小程序码
         Route::get('ma','Api\WechatController@ma');
     });
-<<<<<<< HEAD
-        //商品详情
-=======
 
-    //商品详情
->>>>>>> e7a464be253d860dc07a13710b722edea06957bf
     Route::get('productshow/{product}', 'Api\ProductController@show');
     // 登录
     $api->post('logincode', 'WechatController@wechat');
