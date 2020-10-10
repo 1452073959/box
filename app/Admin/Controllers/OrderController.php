@@ -29,6 +29,9 @@ class OrderController extends AdminController
 //            $grid->address;
             $grid->total_amount;
 //            $grid->remark;
+            $grid->model()->with(['items']);
+            $grid->items('商品数据(抽盒)')->view('orders.item');
+//            $grid->column('items', '订单商品')
             $grid->paid_at;
 //            $grid->payment_no;
             $grid->status->using([1 => '未支付', 2 => '未发货', 3 => '已发货', 5 => '请立即发货',
@@ -47,6 +50,16 @@ class OrderController extends AdminController
 //            $grid->updated_at->sortable();
             // 显示
             $grid->showFilter();
+
+            $grid->filter(function (Grid\Filter $filter) {
+
+//                $filter->equal('id');
+                $filter->like('no', '商户订单号');
+//                $filter->equal('column', $label);
+                $filter->like('user.nickname', '用户');
+
+            });
+
             $grid->selector(function (Grid\Tools\Selector $selector) {
                 $selector->selectOne('status', '订单状态', [
                     0 => '未知',
@@ -56,14 +69,6 @@ class OrderController extends AdminController
                     5 => '请立即发货',
                     4 => '已取消',
                 ]);
-            });
-            $grid->filter(function (Grid\Filter $filter) {
-
-//                $filter->equal('id');
-                $filter->like('no', '商户订单号');
-//                $filter->equal('column', $label);
-                $filter->like('user.nickname', '用户');
-
             });
             $grid->disableDeleteButton();
             $grid->disableEditButton();
@@ -84,7 +89,8 @@ class OrderController extends AdminController
 
     public function show($id, Content $content)
     {
-//        dump( \App\Models\Order::find($id)->toarray());
+
+//        dump( \App\Models\Order::with('items')->find($id));
         return $content->header('订单')
             ->description('详情')
             ->body(view('orders.show', ['order' => \App\Models\Order::find($id)]));
