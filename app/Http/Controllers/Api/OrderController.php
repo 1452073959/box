@@ -34,6 +34,7 @@ class OrderController extends Controller
                     $order->address =$request->input('address');
                 }
                 $order->type = $data['type'];
+                $order->shop_num = $data['shop_num'];
                 $order->shop_id = $data['shop_id'];
                 if ($request->has('selfgain_id')) {
                     $order->selfgain_id =$request->input('selfgain_id');
@@ -88,14 +89,17 @@ class OrderController extends Controller
             $user->balance=$user['balance']-$order['total_amount'];
             $user->save();
             $order->status=2;
+            $order->payway='余额';
             $order->paid_at = date('Y-m-d H:i:s', time());
             $order->save();
             return $this->success(['msg'=>'余额支付成功','balance'=>$user['balance']]);
         }else{
-
-            $order['total_amount']=$order['total_amount']-$user['balance'];
-            $user->balance=0;
-            $user->save();
+//
+//            $order['total_amount']=$order['total_amount']-$user['balance'];
+//            $user->balance=0;
+//            $user->save();
+            $order->payway='微信';
+            $order->save();
             //支付逻辑
             $payment = \EasyWeChat::payment(); // 微信支付
             $result = $payment->order->unify([

@@ -106,6 +106,7 @@ class ProductController extends AdminController
             $form->hasMany('skus','sku(最少添加四个)', function (Form\NestedForm $form) {
                 $form->text('title','sku名称')->required();
                 $form->image('image','sku图片');
+                $form->radio('type','隐藏款')->options([1 => '正常款', 2=> '隐藏款'])->default('1')->required();
             });
 
             // 去除整个工具栏内容

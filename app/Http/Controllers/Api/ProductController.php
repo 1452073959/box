@@ -106,15 +106,30 @@ class ProductController extends Controller
 //
         $user = auth('api')->user();
 
-        $productsku= $product->skus()->get();
-        $noskuone=Arr::random($productsku->toarray());
+//        Redis::flushall();
+        $productsku= $product->skus()->get()->toarray();
+        foreach ($productsku as $k=>$v)
+        {
+            if($v['type']==2){
+                unset($productsku[$k]);
+            }
+        }
+        $noskuone=Arr::random($productsku);
         $teetercouunt= Redis::scard($user['id'].'+'.$product['id']);
         $nosku= Redis::smembers($user['id'].'+'.$product['id']);
         // 判断商品是否已经上架，如果没有上架则抛出异常。
         if ($product->status==2) {
             return $this->failed('该商品已下架');
         }
+
+      $productnum = Product::find($product)->first()->toarray();
         $num=2;
+        if($productnum['number']==6){
+            $num=1;
+        }
+        if($productnum['number']==12){
+            $num=2;
+        }
         // 如果用户提交了
         if ($coupon = $request->input('coupon')) {
 
@@ -123,18 +138,35 @@ class ProductController extends Controller
             if(!$cartItems['amount']){
                 return $this->success('没有该卡了');
             }
-            if($teetercouunt<=2){
+            if($teetercouunt<=$num){
                 return $this->success('您的普通摇卡次数还没用完');
             }
             if($cartItems['discount_id']==1){
-                $num=3;
+                $num=$num+1;
                 if($teetercouunt>$num) {
-                    return $this->success(['product' => $product, 'product_sku' => $productsku, 'nosku' => $nosku, 'msg' => '只能使用一张提示卡']);
+                    $nosku= Redis::smembers($user['id'].'+'.$product['id']);
+                    $arr=$product->skus()->get();
+                    foreach ($arr as $k=>$v)
+                    {
+                        if($v['type']==2){
+                            unset($arr[$k]);
+                        }else{
+                            $arr1[]=$v['id'];
+                        }
+                    }
+                    $yesintersection = array_diff($arr1, $nosku);
+                    $yessku=Arr::random($yesintersection);
+                    $arr=ProductSku::where('id',$yessku)->get();
+                    return $this->success(['product' => $product, 'product_sku' => $productsku, 'nosku' => $nosku,'yessku'=>$arr, 'msg' => '只能使用一张提示卡']);
                 }
-                $arr=ProductSku::where('product_id',$product['id'])->get();
+                $arr=$product->skus()->get();
                 foreach ($arr as $k=>$v)
                 {
-                    $arr1[]=$v['id'];
+                    if($v['type']==2){
+                        unset($arr[$k]);
+                    }else{
+                        $arr1[]=$v['id'];
+                    }
                 }
                  $intersection = array_diff($arr1, $nosku);
                 $noskuone=Arr::random($intersection);
@@ -143,7 +175,10 @@ class ProductController extends Controller
                 UserDiscount::where('user_id',$user['id'])->where('discount_id',$cartItems['discount_id'])->update([
                     'amount' => $cartItems['amount']-1,
                 ]);
-                return $this->success(['product'=>$product,'product_sku'=>$productsku,'nosku'=>$nosku,'msg'=>'又摇到一个']);
+                $yesintersection = array_diff($arr1, $nosku);
+                $yessku=Arr::random($yesintersection);
+                $arr=ProductSku::where('id',$yessku)->get();
+                return $this->success(['product'=>$product,'product_sku'=>$productsku,'nosku'=>$nosku,'yessku'=>$arr,'msg'=>'又摇到一个']);
             }
 
             if($cartItems['discount_id']==2)
@@ -154,6 +189,7 @@ class ProductController extends Controller
                     $arr1[]=$v['id'];
                 }
                 $intersection = array_diff($arr1, $nosku);
+
                 $noskuone=Arr::random($intersection);
                 $arr=ProductSku::where('id',$noskuone)->get();
                 UserDiscount::where('user_id',$user['id'])->where('discount_id',$cartItems['discount_id'])->update([
@@ -166,20 +202,44 @@ class ProductController extends Controller
 
 
 
-//        Redis::flushall();
 
 
 //        dump($productsku);
 
         if($teetercouunt>$num){
-            return $this->success(['product'=>$product,'product_sku'=>$productsku,'nosku'=>$nosku,'msg'=>'不能再摇了']);
+            $nosku= Redis::smembers($user['id'].'+'.$product['id']);
+            $arr=$product->skus()->get();
+            foreach ($arr as $k=>$v)
+            {
+                if($v['type']==2){
+                    unset($arr[$k]);
+                }else{
+                    $arr1[]=$v['id'];
+                }
+            }
+            $intersection = array_diff($arr1, $nosku);
+            $yessku=Arr::random($intersection);
+            $arr=ProductSku::where('id',$yessku)->get();
+            return $this->success(['product'=>$product,'product_sku'=>$productsku,'nosku'=>$nosku,'yessku'=>$arr,'msg'=>'不能再摇了']);
         }else{
             $teeter= Redis::sadd($user['id'].'+'.$product['id'],$noskuone['id']);
             $nosku= Redis::smembers($user['id'].'+'.$product['id']);
+            $arr=$product->skus()->get();
+            foreach ($arr as $k=>$v)
+            {
+                if($v['type']==2){
+                    unset($arr[$k]);
+                }else{
+                    $arr1[]=$v['id'];
+                }
+            }
+            $intersection = array_diff($arr1, $nosku);
+            $yessku=Arr::random($intersection);
+            $arr=ProductSku::where('id',$yessku)->get();
             if(!$teeter){
-                return $this->success(['product'=>$product,'product_sku'=>$productsku,'nosku'=>$nosku,'msg'=>'什么都没摇到']);
+                return $this->success(['product'=>$product,'product_sku'=>$productsku,'nosku'=>$nosku,'yessku'=>$arr,'msg'=>'什么都没摇到']);
             }else{
-                return $this->success(['product'=>$product,'product_sku'=>$productsku,'nosku'=>$nosku,'msg'=>'摇到']);
+                return $this->success(['product'=>$product,'product_sku'=>$productsku,'nosku'=>$nosku,'yessku'=>$arr,'msg'=>'摇到']);
             }
         }
     }

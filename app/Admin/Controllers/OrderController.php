@@ -51,12 +51,26 @@ class OrderController extends AdminController
             // 显示
             $grid->showFilter();
 
+
             $grid->filter(function (Grid\Filter $filter) {
 
 //                $filter->equal('id');
                 $filter->like('no', '商户订单号');
 //                $filter->equal('column', $label);
                 $filter->like('user.nickname', '用户');
+                $filter->whereBetween('created_at', function ($q) {
+                    $start = $this->input['start'] ?? null;
+                    $end = $this->input['end'] ?? null;
+                    if ($start !== null) {
+                        $q->where('created_at', '>=', $start);
+                    }
+
+                    if ($end !== null) {
+                        $q->where('created_at', '<=', $end);
+                    }
+                })->datetime();
+
+
 
             });
 

@@ -22,6 +22,7 @@ class Setting extends Form
         $data->maxmoney=$input['maxmoney'];
         $data->img=$input['img'];
         $data->text=$input['text'];
+        $data->barrage=$input['barrage'];
         $data->save();
         // return $this->error('Your error message.');
 
@@ -37,6 +38,7 @@ class Setting extends Form
         $this->text('maxmoney','免运费金额')->required();
         $this->image('img','分享图片')->required();
         $this->text('text','分享文字')->required();
+        $this->radio('barrage','弹幕开关')->options([1 => '开', 2=> '关'])->default('1')->required();
 //        $this->rate('rate','分成比率')->required();
     }
 
@@ -55,6 +57,7 @@ class Setting extends Form
             'maxmoney' => $data['maxmoney'],
             'img' => $data['img'],
             'text' => $data['text'],
+            'barrage' => $data['barrage'],
 
         ];
     }

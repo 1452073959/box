@@ -17,8 +17,8 @@
                 <td>{{ $order->paid_at }}</td>
             </tr>
             <tr>
-                {{--<td>支付方式：</td>--}}
-                {{--<td>{{ $order->payment_method }}</td>--}}
+                <td>支付方式：</td>
+                <td>{{ $order->payway }}</td>
                 <td>支付渠道单号：</td>
                 <td>{{ $order->payment_no }}</td>
             </tr>
@@ -36,13 +36,13 @@
                     <td rowspan="{{ $order->items->count() + 1 }}">订单类型</td>
                     <td>商品名称</td>
                     <td>单价</td>
-                    {{--<td>数量</td>--}}
+                    <td>数量</td>
                 </tr>
                 <tr>
                     <td>商城商品 </td>
                     <td>{{$order->shop->titile}} </td>
                     <td>￥{{ $order->shop->price }}</td>
-                    {{--<td>{{ $order->amount }}</td>--}}
+                    <td>{{ $order->shop_num }}</td>
                 </tr>
             @else
             <tr>
