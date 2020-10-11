@@ -3,11 +3,13 @@
 namespace App\Admin\Controllers;
 
 use App\Admin\Repositories\Order;
+use App\Models\User;
 use Dcat\Admin\Form;
 use Dcat\Admin\Grid;
 use Dcat\Admin\Show;
 use Dcat\Admin\Controllers\AdminController;
 use Dcat\Admin\Layout\Content;
+use Illuminate\Support\Facades\DB;
 
 class OrderController extends AdminController
 {
@@ -89,6 +91,42 @@ class OrderController extends AdminController
             $grid->disableQuickEditButton();
             //关闭新增按钮
             $grid->disableCreateButton();
+            $titles = ['no'=>'订单号','user_id' => '用户', 'total_amount' => '订单金额',
+            'paid_at'=>'支付时间','status'=>'订单状态','type'=>'订单类型'
+            ];
+            $grid->export()->titles($titles)->rows(function (array $rows) {
+
+//                dd($rows);
+                foreach ($rows as $index => &$row) {
+                    if($row['status']==1){
+                       $mes= '未支付';
+                    }
+                    if($row['status']==2){
+                        $mes= '未发货';
+                    }
+                    if($row['status']==3){
+                        $mes= '已发货';
+                    }
+                    if($row['status']==4){
+                        $mes= '已取消';
+                    }
+                    if($row['status']==5){
+                        $mes= '请立即发货';
+                    }
+                    if($row['type']==1){
+                        $mes1= '商城订单';
+                    }
+                    if($row['type']==2){
+                        $mes1= '抽盒订单';
+                    }
+                    $row['user_id'] = User::where('id', $row['id'])->value('nickname');
+                    $row['address'] = '';
+                    $row['status'] =$mes;
+                    $row['type'] =$mes1;
+
+                }
+                return $rows;
+            });
 //            $grid->disableViewButton();
         });
     }
