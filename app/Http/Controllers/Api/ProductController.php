@@ -138,10 +138,10 @@ class ProductController extends Controller
             if(!$cartItems['amount']){
                 return $this->success('没有该卡了');
             }
-            if($teetercouunt<=$num){
-                return $this->success('您的普通摇卡次数还没用完');
-            }
             if($cartItems['discount_id']==1){
+                if($teetercouunt<=$num){
+                    return $this->success('您的普通摇卡次数还没用完');
+                }
                 $num=$num+1;
                 if($teetercouunt>$num) {
                     $nosku= Redis::smembers($user['id'].'+'.$product['id']);
