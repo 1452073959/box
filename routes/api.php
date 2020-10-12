@@ -61,8 +61,7 @@ $api->version('v1', [
         Route::get('nowshipments/{order}', 'Api\OrderController@nowshipments');
         //用户充值下单
         Route::any('recharge', 'Api\OrderController@recharge');
-        //小程序码
-        Route::get('ma','Api\WechatController@ma');
+
     });
 
     Route::get('productshow/{product}', 'Api\ProductController@show');
@@ -102,6 +101,8 @@ $api->version('v1', [
     $api->post('remark', 'OrderController@remark');
     //设置
     Route::get('setting','Api\WechatController@setting');
+    //小程序码
+    Route::get('ma','Api\WechatController@ma');
 
     //弹幕
     Route::get('bulletscreen','Api\OrderController@bulletscreen');
