@@ -54,18 +54,23 @@ class CouponController extends Controller
     public function del(Request $request)
     {
         $user = auth('api')->user();
-//        dd($user);
+
         $id = $request->input('id');
 
         $coupon = $user->usercoupon()->with('coupon')->where('id', $id)->first();
-
+//        dd($coupon);
         if ($coupon['not_before'] && $coupon['not_before'] >time()) {
             return $this->success('该优惠券现在还不能使用');
         }
         if ($coupon['not_after'] && $coupon['not_after'] < time()) {
             return $this->success('该优惠券已过期');
         }
-        $user->usercoupon()->with('coupon')->where('id', $id)->update(['status' => 3]);
-        return $this->success('使用成功');
+       $res= $user->usercoupon()->with('coupon')->where('id', $id)->update(['status' => 3]);
+       if($res){
+           return $this->success('使用成功');
+       }else{
+           return $this->success('错误');
+       }
+
     }
 }
