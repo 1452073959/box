@@ -83,7 +83,7 @@ class WechatController extends Controller
 
         if ($request->has('product_id')) {
             $str=$request->input('product_id');
-            $response =  $app->app_code->getUnlimit($str,[ 'page'  => 'pages/shop/shopinfo']);
+            $response =  $app->app_code->getUnlimit($str,[ 'page'  => 'pages/index/index']);
             // 保存小程序码到文件
             if ($response instanceof \EasyWeChat\Kernel\Http\StreamResponse) {
                 $filename = $response->save(public_path('uploads'));
@@ -96,6 +96,7 @@ class WechatController extends Controller
             return $this->success('传入商品id');
         }
     }
+
 
 
     public function image()
