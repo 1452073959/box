@@ -93,11 +93,19 @@ class ProductController extends Controller
             Redis::del($user['id'].'+'.$product['id']);//true
         }
         if ($product->status==2) {
-            return $this->failed('该商品已下架');
+            return $this->success('该商品已下架');
         }
         $productsku=$product->skus()->get();
+        $arr=$product->skus()->get();
+        foreach($arr as $k=>$v)
+        {
+            if($v['type']==2){
+                unset($arr[$k]);
+            }
+        }
+        $yessku=Arr::random($arr->toArray());
 
-        return $this->success(['product'=>$product,'product_sku'=>$productsku]);
+        return $this->success(['product'=>$product,'product_sku'=>$productsku ,'yessku'=>$yessku]);
     }
 //
 
