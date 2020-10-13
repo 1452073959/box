@@ -57,7 +57,7 @@ class Discountuser extends Controller
     {
         $user = auth('api')->user();
         $user = User::find($user['id']);
-        if($user['integral']<10){
+        if($user['integral']<=10){
             return $this->success('积分不足');
         }
         $user->balance=$request->input('balance',$user['balance']);

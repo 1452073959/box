@@ -71,7 +71,7 @@
             </tr>
             <!-- 订单发货开始 -->
             <!-- 如果订单未发货，展示发货表单 -->
-            @if($order->status == 2 ||5)
+            @if(true)
                 @if(!empty($order['selfgain']))
                 <tr>
                     <td>自提点：</td>
@@ -79,35 +79,53 @@
                 </tr>
                 @endif
                 <tr>
-                    <td colspan="4">
+                    <td colspan="2">
                         <form  class="form-inline" id="myform">
                             <input type="hidden" name="id" value="{{$order->id}}">
                             <div class="form-group">
                                 <label for="express_company" class="control-label">物流公司</label>
-                                <input type="text" id="express_company" name="express_company" value="" class="form-control" placeholder="输入物流公司">
+                                <select class="form-control" name="express_company" >
+                                    <option value ="" @if($order->ship_data['express_company']=='') selected @endif >请选择快递</option>
+                                    <option value ="yuantong" @if($order->ship_data['express_company']=='yuantong') selected @endif >圆通</option>
+                                    <option value ="yunda" @if($order->ship_data['express_company']=='yunda') selected @endif>韵达</option>
+                                    <option value ="zhongtong" @if($order->ship_data['express_company']=='zhongtong') selected @endif>中通</option>
+                                    <option value ="shunfeng" @if($order->ship_data['express_company']=='shunfeng') selected @endif>顺丰</option>
+                                    <option value ="huitongkuaidi" @if($order->ship_data['express_company']=='huitongkuaidi') selected @endif>百世</option>
+                                    <option value ="tiantian" @if($order->ship_data['express_company']=='tiantian') selected @endif>天天</option>
+                                    <option value ="shentong" @if($order->ship_data['express_company']=='shentong') selected @endif>	申通</option>
+                                    <option value ="youzhengguonei" @if($order->ship_data['express_company']=='youzhengguonei') selected @endif>	邮政</option>
+                                </select>
+                                {{--<input type="text" id="express_company" name="express_company" value="" class="form-control" placeholder="输入物流公司">--}}
                             </div>
                             <div class="form-group">
                                 <label for="express_no" class="control-label">物流单号</label>
-                                <input type="text" id="express_no" name="express_no" value="" class="form-control" placeholder="输入物流单号">
+                                <input type="text" id="express_no" name="express_no" value="{{ $order->ship_data['express_no'] }}" class="form-control" placeholder="输入物流单号">
                             </div>
                             <button type="button" class="btn btn-success" id="ship-btn">发货</button>
                         </form>
                     </td>
+                    <td>发货时间：</td>
+                    @if($order->status == 3)
+                        <td>{{ $order->updated_at }}</td>
+                    @else
+                    <td>未发货</td>
+                    @endif
                 </tr>
+
                 <tr>
                     <td colspan="4">
                         <form  class="form-inline" id="myform1">
                             <input type="hidden" name="id" value="{{$order->id}}">
                             <div class="form-group">
                                 <label for="express_company" class="control-label">订单备注</label>
-                                <input type="text" id="express_company" name="remark" value="" class="form-control" placeholder="订单备注(为空则不显示)" size="55">
+                                <input type="text" id="express_company" name="remark" value="{{$order->remark}}" class="form-control" placeholder="订单备注(为空则不显示)"  size="55">
                             </div>
                             <button type="button" class="btn btn-success" id="remake">确定</button>
                         </form>
                     </td>
                 </tr>
             @else
-                <!-- 否则展示物流公司和物流单号 -->
+                <!-- 否则展示物流公司和物流单号 //无用-->
                 <tr>
                     <td>物流公司：</td>
                     <td>{{ $order->ship_data['express_company'] }}</td>

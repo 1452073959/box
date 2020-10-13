@@ -106,6 +106,8 @@ $api->version('v1', [
 
     //弹幕
     Route::get('bulletscreen','Api\OrderController@bulletscreen');
+    //快递查询
+    Route::get('synquery','Api\OrderController@synquery');
 
 //    Route::get('setting', 'Api\WechatController@setting');
 

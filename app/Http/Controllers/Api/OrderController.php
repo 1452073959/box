@@ -306,8 +306,6 @@ class OrderController extends Controller
         // 将订单发货状态改为已发货，并存入物流信息
         DB::table('order')->where('id', $id)->update([
             'status' => 3,
-            // 我们在 Order 模型的 $casts 属性里指明了 ship_data 是一个数组
-            // 因此这里可以直接把数组传过去
             'ship_data' => $data,
         ]);
 
@@ -336,12 +334,55 @@ class OrderController extends Controller
         ]);
         return $this->success('修改成功');
     }
-
+//弹幕
     public function bulletscreen()
     {
         $data=Bulletscreen::orderby('id','desc')->take(30)->get();
         return $this->success($data);
     }
+    //快递查询
+    public function synquery(Request $request)
+    {
+        $data = $request->all();
+        $key = 'aHLJixIX6436';                        //客户授权key
+        $customer = 'CF93B6990B3FB5F3ACA3389C0DCB4540';                   //查询公司编号
+        $param = array (
+            'com' => $data['express_company'],             //快递公司编码
+            'num' => $data['express_no'],     //快递单号
+            'phone' => '',                //手机号
+            'from' => '',                 //出发地城市
+            'to' => '',                   //目的地城市
+            'resultv2' => '1'             //开启行政区域解析
+        );
+
+        //请求参数
+        $post_data = array();
+        $post_data["customer"] = $customer;
+        $post_data["param"] = json_encode($param);
+        $sign = md5($post_data["param"].$key.$post_data["customer"]);
+        $post_data["sign"] = strtoupper($sign);
+
+        $url = 'http://poll.kuaidi100.com/poll/query.do';    //实时查询请求地址
+
+        $params = "";
+        foreach ($post_data as $k=>$v) {
+            $params .= "$k=".urlencode($v)."&";              //默认UTF-8编码格式
+        }
+        $post_data = substr($params, 0, -1);
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $result = curl_exec($ch);
+        $data = str_replace("\"", '"', $result );
+        $data = json_decode($data);
+        return $this->success($data);
+    }
+
+
 
     //测试方法
     public function cache(Request $request)
