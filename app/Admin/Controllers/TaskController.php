@@ -64,6 +64,7 @@ class TaskController extends AdminController
             $form->display('id');
             $form->text('title');
             $form->text('award');
+            $form->text('integral','积分值');
             $form->text('num');
             $form->disableResetButton();
             $form->disableViewCheck();
