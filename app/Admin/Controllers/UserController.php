@@ -72,8 +72,9 @@ class UserController extends AdminController
             $form->text('nickname');
             $form->text('weapp_avatar');
             $form->text('weapp_openid');
-            $form->text('defaultaddress_id');
-        
+            $form->text('integral','积分');
+            $form->text('balance','余额');
+
             $form->display('created_at');
             $form->display('updated_at');
         });
