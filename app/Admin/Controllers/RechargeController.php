@@ -25,12 +25,17 @@ class RechargeController extends AdminController
             $grid->column('user.nickname', '用户')->responsive();;
             $grid->column('money','金额');
             $grid->column('paid_at','支付时间')->display(function($paid_at) {
-                return date('Y-m-d H:i:s',(int)$paid_at);
+                if($paid_at==''){
+                    return '';
+                }else{
+                    return date('Y-m-d H:i:s',(int)$paid_at);
+                }
+
             });;
-            $grid->column('status')->using([ 1 => '成功',2=>'失败'])->filter(
+            $grid->column('status')->using([ 1 => '失败',2=>'成功'])->filter(
                 Grid\Column\Filter\In::make([
-                    1 => '成功',
-                    2 => '失败',
+                    1 => '失败',
+                    2 => '成功',
 
                 ])
             );;;
