@@ -48,6 +48,10 @@ class Recharge extends Model
         });
     }
 
-
+    //订单用户
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
     
 }

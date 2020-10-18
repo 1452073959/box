@@ -15,6 +15,7 @@ Route::group([
     $router->get('/', 'HomeController@index');
     //分类管理
     $router->resource('cate', 'CategoryController');
+    $router->resource('shopcate', 'ShopcateController');
     //商品管理
     $router->resource('products', 'ProductController');
     //q券
@@ -36,4 +37,6 @@ Route::group([
     $router->resource('ziti', 'SelfgainController');
     //
     $router->resource('swipetwo', 'SwipetwoController');
+    //充值订单
+    $router->resource('recan', 'RechargeController');
 });
