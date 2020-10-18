@@ -3,6 +3,10 @@
 namespace App\Admin\Controllers;
 
 use App\Admin\Repositories\Order;
+use App\Models\OrderItem;
+use App\Models\Product;
+use App\Models\ProductSku;
+use App\Models\Shop;
 use App\Models\User;
 use Dcat\Admin\Form;
 use Dcat\Admin\Grid;
@@ -21,21 +25,24 @@ class OrderController extends AdminController
     protected function grid()
     {
         return Grid::make(new Order(), function (Grid $grid) {
-
             $grid->model()->orderBy('created_at', 'desc');
-//            $grid->id->sortable();
-            $grid->no;
+//            $grid->withBorder();
+            $grid->fixColumns(3, -1);
+            $grid->id->sortable()->responsive();;
+            $grid->no->responsive();;
             $grid->model()->with(['user']);
-            $grid->column('user.nickname', '用户');
+            $grid->column('user.nickname', '用户')->responsive();;
 //            $grid->user_id;
-//            $grid->address;
+            $grid->address->explode()->label()->responsive()->setAttributes(['style' => 'width:14px']);;
             $grid->total_amount;
 //            $grid->remark;
+            $grid->model()->with(['shop']);
+            $grid->column('shop.titile', '商城商品(商城)')->responsive();;
             $grid->model()->with(['items']);
-            $grid->items('商品数据(抽盒)')->view('orders.item');
-//            $grid->column('items', '订单商品')
-            $grid->paid_at;
+            $grid->items('商品数据(抽盒)')->view('orders.item')->responsive();;
 //            $grid->payment_no;
+            $grid->column('快速发货')->view('orders.shop')->responsive()->width('400px');;
+            $grid->paid_at->responsive();;
             $grid->status->using([1 => '未支付', 2 => '未发货', 3 => '已发货', 5 => '请立即发货',
                 4 => '已取消',])->filter(
                 Grid\Column\Filter\In::make([
@@ -47,6 +54,7 @@ class OrderController extends AdminController
                     4 => '已取消',
                 ])
             );
+
 //            $grid->ship_data;
 //            $grid->created_at;
 //            $grid->updated_at->sortable();
@@ -71,9 +79,6 @@ class OrderController extends AdminController
                         $q->where('created_at', '<=', $end);
                     }
                 })->datetime();
-
-
-
             });
 
             $grid->selector(function (Grid\Tools\Selector $selector) {
@@ -91,12 +96,11 @@ class OrderController extends AdminController
             $grid->disableQuickEditButton();
             //关闭新增按钮
             $grid->disableCreateButton();
-            $titles = ['no'=>'订单号','user_id' => '用户', 'total_amount' => '订单金额',
-            'paid_at'=>'支付时间','status'=>'订单状态','type'=>'订单类型'
+            $titles = ['no'=>'订单号','user_id' => '用户','address'=>'地址', 'total_amount' => '订单金额','商品数据(抽盒)'=>'商品数据(抽盒)','shop_id'=>'商城商品',
+            'paid_at'=>'支付时间','status'=>'订单状态','type'=>'订单类型','电话'=>'电话'
             ];
             $grid->export()->titles($titles)->rows(function (array $rows) {
 
-//                dd($rows);
                 foreach ($rows as $index => &$row) {
                     if($row['status']==1){
                        $mes= '未支付';
@@ -119,11 +123,20 @@ class OrderController extends AdminController
                     if($row['type']==2){
                         $mes1= '抽盒订单';
                     }
+                    $p=OrderItem::where('order_id',$row['id'])->first();
+                    $name1=Product::where('id',$p['product_id'])->value('title');
+                    $name2=ProductSku::where('id',$p['product_sku_id'])->value('title');
+                    $name=$name1.$name2;
+                    $shop=Shop::where('id',$row['shop_id'])->value('titile');
+                    $address= $row['address']['address'].'/'.$row['address']['contact_name'].'/';
+                    $address2= $row['address']['contact_phone'];
                     $row['user_id'] = User::where('id', $row['id'])->value('nickname');
-                    $row['address'] = '';
+                    $row['address'] =$address;
+                    $row['商品数据(抽盒)'] =$name;
+                    $row['shop_id'] =$shop;
                     $row['status'] =$mes;
                     $row['type'] =$mes1;
-
+                    $row['电话'] =$address2;
                 }
                 return $rows;
             });

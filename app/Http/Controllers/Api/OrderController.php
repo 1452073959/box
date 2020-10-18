@@ -304,12 +304,16 @@ class OrderController extends Controller
             return $this->success('请填写单号');
         }
         // 将订单发货状态改为已发货，并存入物流信息
-        DB::table('order')->where('id', $id)->update([
+        $res=   DB::table('order')->where('id', $id)->update([
             'status' => 3,
             'ship_data' => $data,
         ]);
+        if($res){
+            return $this->success('发货成功');
+        }else{
+            return $this->success('失败');
+        }
 
-        return $this->success('发货成功');
     }
 
     //自提点列表
@@ -387,6 +391,8 @@ class OrderController extends Controller
     //测试方法
     public function cache(Request $request)
     {
+        $a=Order::with('shop')->find('346');
+        dd($a->toArray());
         $value = Cache::get('key');
         $value1 = Cache::get('key1');
         dump($value);

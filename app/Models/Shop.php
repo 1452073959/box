@@ -9,5 +9,8 @@ class Shop extends Model
 {
 	
     protected $table = 'shop';
-    
+    public function order()
+    {
+        return $this->hasMany(Order::class);
+    }
 }

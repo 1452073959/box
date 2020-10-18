@@ -6,7 +6,7 @@ return [
     'fields' => [
         'no' => '商户订单号',
         'user_id' => '用户',
-        'address' => 'address',
+        'address' => '地址',
         'total_amount' => '订单金额',
         'remark' => '订单备注',
         'paid_at' => '支付时间',
