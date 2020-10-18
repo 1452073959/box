@@ -21,8 +21,8 @@ class UserController extends AdminController
             $grid->column('id')->sortable();
             $grid->column('nickname');
             $grid->column('weapp_avatar')->image();
-//            $grid->column('weapp_openid');
-//            $grid->column('defaultaddress_id');
+            $grid->column('integral','积分');
+            $grid->column('balance','余额');
             $grid->column('created_at');
             $grid->column('updated_at')->sortable();
 
