@@ -140,6 +140,18 @@ class OrderController extends AdminController
                 }
                 return $rows;
             });
+            $grid->footer(function ($collection)  {
+                $time=date('Y-m-d',time());
+                $Month=date('m',time());
+                // 查询出已支付状态的订单总金额
+                $data = DB::table('order')->whereDate('created_at',$time)->whereIn('status', ['2','3','5'])->sum('total_amount');
+                $data2 = DB::table('order')
+                    ->whereMonth('created_at', $Month)
+                    ->whereIn('status', ['2','3','5'])->sum('total_amount');
+
+                return "<div style='padding: 10px;'>今日总收入 ： $data.元</div>"."<div style='padding: 10px;'>本月总收入 ： $data2.元</div>";
+            });
+
 //            $grid->disableViewButton();
         });
     }
