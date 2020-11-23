@@ -3,7 +3,7 @@
         <h3 class="box-title">订单流水号：{{ $order->no }}</h3>
         <div class="box-tools">
             <div class="btn-group float-right" style="margin-right: 10px">
-                <a href="" class="btn btn-sm btn-default"><i class="fa fa-list"></i> 列表</a>
+                <a href="javascript:history.back(-1)" class="btn btn-sm btn-default"><i class="fa fa-list"></i> 列表</a>
             </div>
         </div>
     </div>
@@ -44,6 +44,13 @@
                     <td>￥{{ $order->shop->price }}</td>
                     <td>{{ $order->shop_num }}</td>
                 </tr>
+
+                @if(!empty($order->blessing))
+                <tr>
+                    <td>福袋</td>
+                    <td>{{ $order->blessing->title }}</td>
+                </tr>
+                @endif
             @else
             <tr>
 
@@ -66,8 +73,7 @@
                 <td>订单金额：</td>
                 <td colspan="3">￥{{ $order->total_amount }}</td>
                 <!-- 这里也新增了一个发货状态 -->
-                {{--<td>发货状态：</td>--}}
-                {{--<td>{{ \App\Models\Order::$shipStatusMap[$order->ship_status] }}</td>--}}
+
             </tr>
             <!-- 订单发货开始 -->
             <!-- 如果订单未发货，展示发货表单 -->

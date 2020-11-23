@@ -39,4 +39,6 @@ Route::group([
     $router->resource('swipetwo', 'SwipetwoController');
     //充值订单
     $router->resource('recan', 'RechargeController');
+    //福袋
+    $router->resource('blessing', 'BlessingController');
 });

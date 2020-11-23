@@ -39,6 +39,9 @@ class OrderController extends Controller
                 if ($request->has('selfgain_id')) {
                     $order->selfgain_id =$request->input('selfgain_id');
                 }
+                if ($request->has('shop_bless')) {
+                    $order->shop_bless =$request->input('shop_bless');
+                }
                 $order->save();
             }else{
                 $data = $request->all();

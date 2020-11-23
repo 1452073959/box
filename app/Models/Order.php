@@ -83,6 +83,12 @@ class Order extends Model
     {
         return $this->hasOne(Sign::class,'order_id','id');
     }
+
+    public function blessing()
+    {
+        return $this->belongsTo(Blessing::class,'shop_bless','id');
+    }
+
     //自提点设置
     public function selfgain()
     {
