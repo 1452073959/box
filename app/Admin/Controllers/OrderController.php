@@ -140,7 +140,7 @@ class OrderController extends AdminController
                 }
                 return $rows;
             });
-            $grid->footer(function ($collection)  {
+            $grid->header(function ($collection)  {
                 $time=date('Y-m-d',time());
                 $Month=date('m',time());
                 // 查询出已支付状态的订单总金额

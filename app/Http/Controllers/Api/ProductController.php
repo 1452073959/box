@@ -121,6 +121,9 @@ class ProductController extends Controller
             if($v['type']==2){
                 unset($productsku[$k]);
             }
+            if($v['stock']<=0){
+                unset($productsku[$k]);
+            }
         }
         $noskuone=Arr::random($productsku);
         $teetercouunt= Redis::scard($user['id'].'+'.$product['id']);
@@ -132,10 +135,10 @@ class ProductController extends Controller
 
       $productnum = Product::find($product)->first()->toarray();
         $num=2;
-        if($productnum['number']==6){
+        if($productnum['number']<=6){
             $num=1;
         }
-        if($productnum['number']==12){
+        if($productnum['number']<=12&&$productnum['number']>6){
             $num=2;
         }
         // 如果用户提交了

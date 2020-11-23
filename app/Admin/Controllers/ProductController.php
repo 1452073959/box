@@ -99,13 +99,13 @@ class ProductController extends AdminController
             $form->image('verticalimage','竖图')->uniqueName()->required();
             $form->text('price')->required();
             $form->number('number')->required();
-
             $form->radio('recommended')->options(['1' => '是', '2'=> '否'])->default('1')->required();
             $form->radio('status')->options([1 => '上架', 2=> '下架'])->default('1')->required();
 
             $form->hasMany('skus','sku(最少添加四个)', function (Form\NestedForm $form) {
                 $form->text('title','sku名称')->required();
                 $form->image('image','sku图片');
+                $form->number('stock','库存');
                 $form->radio('type','隐藏款')->options([1 => '正常款', 2=> '隐藏款'])->default('1')->required();
             });
 
