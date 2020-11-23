@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Api\Controller;
+use App\Models\Blessing;
 use App\Models\Category;
 use App\Models\ProductSku;
 use App\Models\Shop;
@@ -257,9 +258,16 @@ class ProductController extends Controller
         //商城商品
     public function shop()
     {
-
         $builder = Shop::query()->where('status', 1)->get();
         return $this->success($builder);
+    }
+    //福袋商品
+    public function blessing()
+    {
+
+        $data=Blessing::get()->toarray();
+        $blessing=Arr::random($data);
+        return $this->success($blessing);
     }
 
     //商品详情

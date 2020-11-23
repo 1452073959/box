@@ -183,7 +183,7 @@ class OrderController extends Controller
         }
         $orders = Order::query()
             // 使用 with 方法预加载，避免N + 1问题
-            ->with(['items.product', 'items.productSku','shop','selfgain'])
+            ->with(['items.product', 'items.productSku','shop','selfgain','blessing'])
             ->where('user_id', $user['id'])
             ->where($where)
             ->orderBy('created_at', 'desc')
@@ -194,7 +194,7 @@ class OrderController extends Controller
     //订单详情
     public function show(Order $order, Request $request)
     {
-        $show=  $order->load(['items.productSku', 'items.product','shop','sign','selfgain']);
+        $show=  $order->load(['items.productSku', 'items.product','shop','sign','selfgain','blessing']);
         return $this->success($show);
     }
     //使用后悔卡

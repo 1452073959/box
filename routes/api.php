@@ -113,6 +113,9 @@ $api->version('v1', [
 
     //自提点列表
     $api->get('selfgain', 'OrderController@selfgain');
+
+    //福袋
+    $api->get('blessing', 'ProductController@blessing');
     //测试路由
     $api->any('cache', 'OrderController@cache');
 
