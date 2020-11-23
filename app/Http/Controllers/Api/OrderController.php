@@ -67,7 +67,9 @@ class OrderController extends Controller
                     $item->productSku()->associate($sku);
                     $item->save();
                     $totalAmount += $sku->price * $v['amount'];
-
+                    if ($sku->decreaseStock($v['amount']) <= 0) {
+                        abort(40000, '该商品库存不足.');
+                    }
                     $butt=new Bulletscreen();
                     $butt->img=$user['weapp_avatar'];
                     $butt->action='抽中了';
