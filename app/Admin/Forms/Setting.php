@@ -23,6 +23,7 @@ class Setting extends Form
         $data->img=$input['img'];
         $data->text=$input['text'];
         $data->barrage=$input['barrage'];
+        $data->blessing=$input['blessing'];
         $data->save();
         // return $this->error('Your error message.');
 
@@ -36,6 +37,7 @@ class Setting extends Form
     {
         $this->text('freight','运费金额')->required();
         $this->text('maxmoney','免运费金额')->required();
+        $this->text('blessing','福袋价格')->required();
         $this->image('img','分享图片')->required();
         $this->text('text','分享文字')->required();
         $this->radio('barrage','弹幕开关')->options([1 => '开', 2=> '关'])->default('1')->required();
@@ -55,6 +57,7 @@ class Setting extends Form
         return [
             'freight'  => $data['freight'],
             'maxmoney' => $data['maxmoney'],
+            'blessing' => $data['blessing'],
             'img' => $data['img'],
             'text' => $data['text'],
             'barrage' => $data['barrage'],
