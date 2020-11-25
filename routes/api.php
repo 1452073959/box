@@ -42,6 +42,9 @@ $api->version('v1', [
         Route::post('gainupdate', 'Api\Discountuser@gainupdate');
         //优惠券列表
         Route::get('couponlist', 'Api\CouponController@couponlist');
+
+        //新用户优惠券领取
+        Route::get('new', 'ProductController@new');
         //优惠券增加
         Route::post('couponadd', 'Api\CouponController@add');
         //我的优惠券列表
@@ -116,6 +119,7 @@ $api->version('v1', [
 
     //福袋
     $api->get('blessing', 'ProductController@blessing');
+
     //测试路由
     $api->any('cache', 'OrderController@cache');
 

@@ -81,7 +81,6 @@ class User extends Authenticatable implements JWTSubject
         // 监听模型创建事件，在写入数据库之前触发
         static::created(function ($model) {
 
-            $model->coupon()->attach(2, ['not_before' => time(), 'not_after' => strtotime("+1 month")]);
 
             $task=Task::all();
             foreach ($task as $k=>$v)
