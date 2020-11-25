@@ -152,6 +152,8 @@ class OrderController extends AdminController
                 return "<div style='padding: 10px;'>今日总收入 ： $data.元</div>"."<div style='padding: 10px;'>本月总收入 ： $data2.元</div>";
             });
 
+            $grid->quickSearch('no');
+
 //            $grid->disableViewButton();
         });
     }
