@@ -32,6 +32,13 @@ class CouponController extends Controller
         return $this->success('领取成功');
     }
 
+    public function newcoupon()
+    {
+        $data= Coupon::where('id',2)->get();
+        return $this->success($data);
+    }
+
+
     //
     public function couponlist()
     {

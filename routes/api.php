@@ -119,9 +119,10 @@ $api->version('v1', [
 
     //福袋
     $api->get('blessing', 'ProductController@blessing');
-
     //测试路由
     $api->any('cache', 'OrderController@cache');
+    //新用户优惠券信息
+    $api->any('newcoupon', 'CouponController@newcoupon');
 
 
 });
