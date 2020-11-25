@@ -44,7 +44,7 @@ $api->version('v1', [
         Route::get('couponlist', 'Api\CouponController@couponlist');
 
         //新用户优惠券领取
-        Route::get('new', 'ProductController@new');
+        Route::get('new', 'Api\CouponController@new');
         //优惠券增加
         Route::post('couponadd', 'Api\CouponController@add');
         //我的优惠券列表
