@@ -27,9 +27,9 @@ class CouponController extends Controller
 
     public function new()
     {
-        $user = auth('api')->user();
-        $user->coupon()->attach(2, ['not_before' => time(), 'not_after' => strtotime("+1 month")]);
-        return $this->success('领取成功');
+//        $user = auth('api')->user();
+//        $user->coupon()->attach(2, ['not_before' => time(), 'not_after' => strtotime("+1 month")]);
+//        return $this->success('领取成功');
     }
 
     //
