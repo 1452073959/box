@@ -17,8 +17,28 @@
                 <td>{{ $order->paid_at }}</td>
             </tr>
             <tr>
-                <td>支付方式：</td>
-                <td>{{ $order->payway }}</td>
+
+                <td>支付状态：
+
+                    @if ( $order->status==1 )
+                        未支付
+                    @elseif ( $order->status==2)
+                        未发货
+                    @elseif ( $order->status==3)
+                        已发货
+                    @elseif ( $order->status==4)
+                        已取消
+                    @elseif ( $order->status==5)
+                        请立即发货
+
+                    @endif
+
+
+
+                </td>
+                <td>支付方式：{{ $order->payway }}</td>
+
+
                 <td>支付渠道单号：</td>
                 <td>{{ $order->payment_no }}</td>
             </tr>
